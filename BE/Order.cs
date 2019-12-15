@@ -14,9 +14,9 @@ namespace BE
         public OrderStatus Status { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime OrderDate { get; set; }
-        public int PriceOfTheStay { get; set; }
-        // ichour comme quoi c'est cet order la qui est voulu
-        //public bool flagConfirmation { get; set; }
+        public double PriceOfTheStay { get; set; }
+        // ichour de paiment 
+        public bool PaymentConfirmation { get; set; }
 
         public override string ToString()
         {

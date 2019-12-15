@@ -31,7 +31,7 @@ namespace BE
         public bool Restaurant { get; set; }
         public bool AirConditionner { get; set; }
         public bool ChildrenAttraction { get; set; }
-        public int PricePerNight { get; set; }
+        public double PricePerNight { get; set; }
         public override string ToString()
         {
             string s = ("The Hosting Unit Key and it name are " + HostingUnitKey + " and " + HostingUnitName 

@@ -9,7 +9,8 @@ namespace BE
 {
     public class GuestRequest : Enumeration
     {
-        public int GuestRequestKey = Configuration.NumStaticGuestRequest;
+        public int GuestRequestKey { get; set; }
+        //= Configuration.NumStaticGuestRequest;
         public string FamilyName { get; set; }
         public string PrivateName { get; set; }
         public string MailAddress { get; set; }
@@ -18,6 +19,7 @@ namespace BE
         public DateTime RegistrationDate { get; set; }
         public DateTime EntryDate { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public int NumberofDays { get; set; }
         public Area Area { get; set; }
         //public string SubArea { get; set; }
         public Type Type { get; set; }
@@ -45,6 +47,11 @@ namespace BE
             return s;
         }
 
+        // pas sur de mon coup
+        public GuestRequest()
+        {
+            this.GuestRequestKey = Configuration.NumStaticGuestRequest++;
+        }
 
 
 

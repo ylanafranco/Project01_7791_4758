@@ -60,11 +60,6 @@ namespace BL
 
         }
 
-        public void AddOder(Order or)
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddHost(Host h)
         {
             throw new NotImplementedException();
@@ -107,7 +102,6 @@ namespace BL
                 // si oui en gros ca veut dire qu'on a paye alors la azmana elle est vraiment effectue 
                 HostingUnit myhosting = dal.GetHostingUnit(or.HostingUnitKey);
                 Host myHost = dal.GetHost(myhosting.Owner.HostKey);
-                //DataSource.GetAllHost.FirstOrDefault(h => h.HostKey == myhosting.Owner.HostKey);
                 if (myHost.CollectionClearance == true)
                 {
                     // ichour azmana

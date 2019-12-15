@@ -31,7 +31,7 @@ namespace BL
         #endregion
 
         #region OrderFonction
-        void AddOder(Order or);
+        void AddOrder(Order or);
         void UpdateOrder(Order or);
         Order GetOrder(int key);
         #endregion

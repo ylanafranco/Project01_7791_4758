@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public class Configuration
+    public static class Configuration
     {
         public static int NumStaticGuestRequest = 10000000;
         public static int NumStaticHostingUnit = 10000000;
