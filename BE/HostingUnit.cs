@@ -14,7 +14,7 @@ namespace BE
         public Area Areaa { get; set; }
         public Type Typee { get; set; }
         public int Room { get; set; }
-        public bool[,] Diary { get; set; }
+        public bool[,] Diary { get; set; } = new bool[12, 31];
         public bool Jacuzzi { get; set; }
         public bool Garden { get; set; }
         public bool Spa { get; set; }

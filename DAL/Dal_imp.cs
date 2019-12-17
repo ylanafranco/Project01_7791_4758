@@ -118,22 +118,22 @@ namespace DAL
         #region GET FUNCTION
         public GuestRequest GetGuestRequest(int key)
         {
-            return DataSource.GetAllGuestRequest.copy().FirstOrDefault(gs => gs.GuestRequestKey == key);
+            return DataSource.GetAllGuestRequest.FirstOrDefault(gs => gs.GuestRequestKey == key);
         }
 
         public Host GetHost(int key)
         {
-            return DataSource.GetAllHost.copy().FirstOrDefault(h => h.HostKey == key);
+            return DataSource.GetAllHost.FirstOrDefault(h => h.HostKey == key);
         }
 
         public HostingUnit GetHostingUnit(int key)
         {
-            return DataSource.GetAllHostingUnitCollection.copy().FirstOrDefault(hu => hu.HostingUnitKey == key);
+            return DataSource.GetAllHostingUnitCollection.FirstOrDefault(hu => hu.HostingUnitKey == key);
         }
 
         public Order GetOrder(int key)
         {
-            return DataSource.GetAllOrder.copy().FirstOrDefault(or => or.OrderKey == key);
+            return DataSource.GetAllOrder.FirstOrDefault(or => or.OrderKey == key);
         }
         #endregion
 
