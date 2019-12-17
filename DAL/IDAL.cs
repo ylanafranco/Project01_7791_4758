@@ -40,7 +40,7 @@ namespace DAL
         IEnumerable<Host> GetAllHost(Func<Host, bool> predicate = null);
         IEnumerable<Order> GetAllOrder(Func<Order, bool> predicate = null);
         IEnumerable<GuestRequest> GetAllGuestRequest(Func<GuestRequest, bool> predicate = null);
-        IEnumerable<int> GetAllBranch(Func<int, bool> predicate = null);
+        IEnumerable<int> GetAllBranch();
         #endregion
     }
 }

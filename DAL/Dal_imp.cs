@@ -8,6 +8,16 @@ using DS;
 
 namespace DAL
 {
+    public static class Tools
+    {
+        public static IEnumerable<T> copy<T>(this IEnumerable<T> obj)
+        {
+            T[] arr = new T[obj.Count()];
+            obj.ToList().CopyTo(arr);
+            return arr.ToList();
+        }
+    }
+
     public class Dal_imp : IDAL
     {
         static DataSource DS = new DataSource();
@@ -68,61 +78,62 @@ namespace DAL
         #endregion
 
         #region LIST FUNCTION
-        public IEnumerable<int> GetAllBranch(Func<int, bool> predicate = null)
+        public IEnumerable<int> GetAllBranch()
         {
-            if (predicate == null)
-                return DataSource.GetAllBranch.AsEnumerable();
-            return DataSource.GetAllBranch.Where(predicate);
+            //if (predicate == null)
+            //    return DataSource.GetAllBranch.AsEnumerable();
+            //return DataSource.GetAllBranch.Where(predicate).copy();
+            return new List<int> { 26, 7, 18, 55, 1 };
         }
 
         public IEnumerable<GuestRequest> GetAllGuestRequest(Func<GuestRequest, bool> predicate = null)
         {
             if (predicate == null) 
                 return DataSource.GetAllGuestRequest.AsEnumerable();
-            return DataSource.GetAllGuestRequest.Where(predicate);
+            return DataSource.GetAllGuestRequest.Where(predicate).copy();
         }
 
         public IEnumerable<Host> GetAllHost(Func<Host, bool> predicate = null)
         {
             if (predicate == null)
                 return DataSource.GetAllHost.AsEnumerable();
-            return DataSource.GetAllHost.Where(predicate);
+            return DataSource.GetAllHost.Where(predicate).copy();
         }
 
         public IEnumerable<HostingUnit> GetAllHostingUnitCollection(Func<HostingUnit, bool> predicate = null)
         {
             if (predicate == null)
                 return DataSource.GetAllHostingUnitCollection.AsEnumerable();
-            return DataSource.GetAllHostingUnitCollection.Where(predicate);
+            return DataSource.GetAllHostingUnitCollection.Where(predicate).copy();
         }
 
         public IEnumerable<Order> GetAllOrder(Func<Order, bool> predicate = null)
         {
             if (predicate == null)
                 return DataSource.GetAllOrder.AsEnumerable();
-            return DataSource.GetAllOrder.Where(predicate);
+            return DataSource.GetAllOrder.Where(predicate).copy();
         }
         #endregion
 
         #region GET FUNCTION
         public GuestRequest GetGuestRequest(int key)
         {
-            return DataSource.GetAllGuestRequest.FirstOrDefault(gs => gs.GuestRequestKey == key);
+            return DataSource.GetAllGuestRequest.copy().FirstOrDefault(gs => gs.GuestRequestKey == key);
         }
 
         public Host GetHost(int key)
         {
-            return DataSource.GetAllHost.FirstOrDefault(h => h.HostKey == key);
+            return DataSource.GetAllHost.copy().FirstOrDefault(h => h.HostKey == key);
         }
 
         public HostingUnit GetHostingUnit(int key)
         {
-            return DataSource.GetAllHostingUnitCollection.FirstOrDefault(hu => hu.HostingUnitKey == key);
+            return DataSource.GetAllHostingUnitCollection.copy().FirstOrDefault(hu => hu.HostingUnitKey == key);
         }
 
         public Order GetOrder(int key)
         {
-            return DataSource.GetAllOrder.FirstOrDefault(or => or.OrderKey == key);
+            return DataSource.GetAllOrder.copy().FirstOrDefault(or => or.OrderKey == key);
         }
         #endregion
 

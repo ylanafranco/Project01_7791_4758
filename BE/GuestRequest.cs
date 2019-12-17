@@ -26,6 +26,7 @@ namespace BE
         public Type Type { get; set; }
         public int Adults { get; set; }
         public int Children { get; set; }
+        public int NumTotalPersons { get; set; }
         public int Room { get; set; }
         public Response Pool { get; set; }
         public Response KidClub { get; set; }
