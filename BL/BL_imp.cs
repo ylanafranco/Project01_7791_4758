@@ -42,13 +42,13 @@ namespace BL
             GuestRequest guestreq = dal.GetGuestRequest(or.HostingUnitKey);
             HostingUnit myhosting = dal.GetHostingUnit(or.HostingUnitKey);
             DateTime i = guestreq.EntryDate;
-
-            if ((myhosting.Diary[guestreq.EntryDate.Month, guestreq.EntryDate.Day]) == false)
+            // verif le truc avec le -1
+            if ((myhosting.Diary[guestreq.EntryDate.Month-1, guestreq.EntryDate.Day-1]) == false)
             {
                 while (i != guestreq.ReleaseDate)
                 {
 
-                    if (myhosting.Diary[i.Month, i.Day] == true)
+                    if (myhosting.Diary[i.Month-1, i.Day-1] == true)
                     {
                         throw new Exception("The dates are not available for this hosting unit");
                     }
@@ -74,37 +74,30 @@ namespace BL
         #region UPDATE
         public void UpdateOrder(Order or)
         {
+            bool flagStatus = false;
             if (or.Status == Enumeration.OrderStatus.ClosedForCustomerResponse)
             {
-                // on met a jour la maarehet comme quoi c reserve 
-                UpdateMatriceHostingunit(or);
-                // on met a jour la guest req qui correspond a cette order
-                GuestRequest guestreq = dal.GetGuestRequest(or.GuestRequestKey);
-                UpdateGuestRequest(guestreq);
-                var list = from item in dal.GetAllOrder()
-                           where item.GuestRequestKey == guestreq.GuestRequestKey
-                           select item;
-                var result = from item in list
-                             where item.Status == Enumeration.OrderStatus.NotAddressed // verifier si c'est ca ou sent email
-                             select item;
-                foreach (var item in result)
-                {
-                    item.Status = Enumeration.OrderStatus.ClosedForCustomerUnresponsiveness;
-                }
+                flagStatus = true; // pour empecher le ch de statut
 
-                //trouver qq chose pour bloquer
-                throw new Exception("You can't change the status, it's already closed");
+                // on met a jour la maarehet comme quoi c reserve , on envoie la reservation 
+                UpdateMatriceHostingunit(or);
+        
+                GuestRequest guestreq = dal.GetGuestRequest(or.GuestRequestKey);
+                int NumDays = CommissionCost(guestreq);
+                Console.WriteLine("The cost of the comission is " + NumDays);
+
+                //MaJ du statut de tous les orders avec cette guest request pour les fermer
+                UpdateOrderAndGuestReq(or);
             }
 
             else if (or.Status == Enumeration.OrderStatus.NotAddressed)
             {
-                // en gros on verfie que le host a recu un ichour comme quoi il peut prelever le client 
-                // si oui en gros ca veut dire qu'on a paye alors la azmana elle est vraiment effectue 
+                // check si le host a une autorisation de prelev pour la commission
                 HostingUnit myhosting = dal.GetHostingUnit(or.HostingUnitKey);
                 Host myHost = dal.GetHost(myhosting.Owner.HostKey);
                 if (myHost.CollectionClearance == true)
                 {
-                    // ichour azmana
+                    
                     or.Status = Enumeration.OrderStatus.SentEmail;
                 }
             }
@@ -113,24 +106,15 @@ namespace BL
                 // faire une fonction pour envoyer un mail 
                 Console.WriteLine("MAIL SENT");
             }
+
+            if (flagStatus == true)
+                or.Status = Enumeration.OrderStatus.ClosedForCustomerResponse;
             dal.UpdateOrder(or);
         }
 
         public void UpdateGuestRequest(GuestRequest gs)
         {
-            // changement du statut de la guest req sil a ete envoye par le order qui a ete sagour
-            // + fermeture de tous les propositions concernant cette guest req
-            if (gs.Status == Enumeration.GuestRequestStatus.Open)
-            {
-                Order myorder = dal.GetOrder(gs.GuestRequestKey);
-                if (myorder.Status == Enumeration.OrderStatus.ClosedForCustomerResponse)
-                {
-                    gs.Status = Enumeration.GuestRequestStatus.ClosedThroughTheSite;
-
-
-                }
-            }
-
+          
             dal.UpdateGuestRequest(gs);
 
         }
@@ -142,7 +126,24 @@ namespace BL
 
         public void UpdateHost(Host h)
         {
-            throw new NotImplementedException();
+            bool flagIchour = false;
+            IEnumerable<Order> listOrder = dal.GetAllOrder();
+            var Orders = from or in listOrder
+                         where or.Status == Enumeration.OrderStatus.SentEmail
+                         select or;
+            if (h.CollectionClearance == true)
+            {                
+                if (Orders != null)
+                {
+                    flagIchour = true;
+                }
+            }
+
+            if (flagIchour == true)
+            {
+                h.CollectionClearance = true;
+            }
+            dal.UpdateHost(h);
         }
         #endregion
 
@@ -228,12 +229,40 @@ namespace BL
             DateTime i = myguestreq.EntryDate;
             while (i != myguestreq.ReleaseDate)
             {
-
-                myhosting.Diary[i.Month, i.Day] = true;
+                myhosting.Diary[i.Month-1, i.Day-1] = true;
                 i = i.AddDays(1);
 
             }
 
         }
+
+        // fonction pour calculer la commission du sejour
+        public int CommissionCost(GuestRequest guestreq)
+        {
+            string NumDays = (guestreq.ReleaseDate - guestreq.EntryDate).TotalDays.ToString();
+            int x= (int.Parse(NumDays) - 1);
+            return Configuration.Commission * x;
+        }
+
+        // fonction qui va changer le statut de tous les order et de la guestreq quand une confirmation est faite
+        public void UpdateOrderAndGuestReq(Order or)
+        {
+            GuestRequest guestreq = dal.GetGuestRequest(or.GuestRequestKey);
+            if (or.Status == Enumeration.OrderStatus.ClosedForCustomerResponse)
+            {
+                IEnumerable<Order> OrderList = dal.GetAllOrder();
+                guestreq.Status = Enumeration.GuestRequestStatus.ClosedThroughTheSite;
+                dal.UpdateGuestRequest(guestreq);
+                foreach (Order item in OrderList)
+                {
+                    if (item.GuestRequestKey == guestreq.GuestRequestKey && (item.Status == Enumeration.OrderStatus.NotAddressed || item.Status == Enumeration.OrderStatus.SentEmail))
+                    {
+                        item.Status = Enumeration.OrderStatus.ClosedForCustomerUnresponsiveness;
+                        dal.UpdateOrder(item);
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 
 namespace BE
@@ -13,7 +14,7 @@ namespace BE
         //= Configuration.NumStaticGuestRequest;
         public string FamilyName { get; set; }
         public string PrivateName { get; set; }
-        public string MailAddress { get; set; }
+        public MailAddress MailAddress { get; set; }
         public GuestRequestStatus Status { get; set; }
         //public List<Order> AllOrdersProposed { get; set; }
         public DateTime RegistrationDate { get; set; }

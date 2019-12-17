@@ -11,8 +11,8 @@ namespace BE
         public int HostingUnitKey = Configuration.NumStaticHostingUnit;
         public Host Owner { get; set; }
         public string HostingUnitName { get; set; }
-        public Area Area { get; set; }
-        public Type Type { get; set; }
+        public Area Areaa { get; set; }
+        public Type Typee { get; set; }
         public int Room { get; set; }
         public bool[,] Diary { get; set; }
         public bool Jacuzzi { get; set; }
@@ -38,6 +38,8 @@ namespace BE
                 + ", his owner is " + Owner.ToString());
             return s;
         }
+
+
 
     }
 }
