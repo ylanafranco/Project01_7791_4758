@@ -10,52 +10,151 @@ namespace BE
 {
     public class GuestRequest : Enumeration
     {
-        public int GuestRequestKey { get; set; }
-        //= Configuration.NumStaticGuestRequest;
-        public string FamilyName { get; set; }
-        public string PrivateName { get; set; }
-        public MailAddress MailAddress { get; set; }
-        public GuestRequestStatus Status { get; set; }
-        //public List<Order> AllOrdersProposed { get; set; }
-        public DateTime RegistrationDate { get; set; }
-        public DateTime EntryDate { get; set; }
-        public DateTime ReleaseDate { get; set; }
-        public int NumberofDays { get; set; }
-        public Area Area { get; set; }
+        private int GuestRequestkey;
+        public int GuestRequestKey
+        {
+            get { return GuestRequestkey; }
+            set { GuestRequestkey = Configuration.NumStaticGuestRequest++; }
+
+        }
+
+        private string familyName { get; set; }
+        public string FamilyName
+        {
+            get { return familyName.ToUpper(); }
+            set
+            {
+                familyName = value;
+            }
+        }
+
+        private string privateName;
+        public string PrivateName { get { return privateName.ToUpper(); }
+            set { privateName = value; } }
+
+        private string mailAddress;
+        public string MailAddress { get {return mailAddress; }
+            set {
+                if (!(Tool.IsValidEmail(value)))
+                    throw new ArgumentException(string.Format("This {0} is not valid", value));
+                mailAddress = value;
+            } }
+
+        private int phoneNumber;
+        public int PhoneNumber
+        {
+            get { return phoneNumber; }
+            set
+            {
+                if (!(Tool.isValidNumber(value)))
+                {
+                    throw new ArgumentException(string.Format("This {0} is not valid.", value));
+                }
+                phoneNumber = value;
+
+            }
+        }
+
+        private GuestRequestStatus status;
+        public GuestRequestStatus Status { get {return status; } set { status = value; } }
+
+        private DateTime registrationDate;
+        public DateTime RegistrationDate 
+        { get { return registrationDate; }
+            set { registrationDate = value; }
+         }
+
+        private DateTime entryDate;
+        public DateTime EntryDate { 
+                get { return entryDate; }
+                set {
+                if (value < DateTime.Now)
+                {
+                    throw new ArgumentException(string.Format("This date {0} has already passed.", value));
+                }
+                entryDate = value; }
+            }
+
+        private DateTime releaseDate;
+        public DateTime ReleaseDate
+        {
+            get { return releaseDate; }
+            set {
+                if (value < EntryDate)
+                {
+                    throw new ArgumentException(string.Format("This date {0} has already passed.", value));
+                }
+                releaseDate = value; }
+        }
+
+        private int numberofDays;
+        public int NumberofDays
+        {
+            get { return numberofDays; }
+            set { numberofDays = value; }
+        }
+
+        private Area area;
+        public Area Area { get { return area; } set { area = value; } }
+
+
         //public string SubArea { get; set; }
-        public Type Type { get; set; }
-        public int Adults { get; set; }
-        public int Children { get; set; }
-        public int NumTotalPersons { get; set; }
-        public int Room { get; set; }
-        public Response Pool { get; set; }
-        public Response KidClub { get; set; }
-        public Response Parking { get; set; }
-        public Response PetsAccepted { get; set; }
-        public Response WifiIncluded { get; set; }
-        public Response SmokingRoom { get; set; }
-        public Response HandicapAccess { get; set; }
-        public Response Restaurant { get; set; }
+
+        private Type type;
+        public Type Type { get { return type; } set { type = value; } }
+
+        private int adults;
+        public int Adults { get { return adults; } set { adults = value; } }
+
+        private int children;
+        public int Children { get { return children; } set { children = value; } }
+
+        private int numTotalPersons;
+        public int NumTotalPersons { get{ return numTotalPersons; } set { numTotalPersons = value; } }
+
+        private int room;
+        public int Room { get { return room;  } set { room = value; } }
+
+        private Response pool;
+        public Response Pool { get { return pool; } set { pool = value; } }
+
+        private Response kidClub;
+        public Response KidClub { get { return kidClub; } set { kidClub = value; } }
+
+        private Response parking;
+        public Response Parking { get { return parking; } set { parking = value; } }
+
+        private Response petsAccepted;
+        public Response PetsAccepted { get { return petsAccepted; } set { petsAccepted = value; } }
+
+        private Response wifiIncluded;
+        public Response WifiIncluded { get { return wifiIncluded; } set { wifiIncluded = value; } }
+
+        private Response smokingRoom;
+        public Response SmokingRoom { get { return smokingRoom; } set { smokingRoom = value; } }
+
+        private Response handicapAccess;
+        public Response HandicapAccess { get { return handicapAccess; } set { handicapAccess = value; } }
+
+        private Response restaurant;
+        public Response Restaurant { get { return restaurant; } set { restaurant = value; } }
+
         //public Response Jacuzzi { get; set; }
         //public Response Garden { get; set; }
-        public Response ChildrenAttractions { get; set; }
-        public bool WorkTrip { get; set; }
+
+        private Response childrenAttractions;
+        public Response ChildrenAttractions { get { return childrenAttractions; } set { childrenAttractions = value; } }
+
+        private bool workTrip;
+        public bool WorkTrip { get { return workTrip; } set { workTrip = value; } }
 
         public override string ToString()
         {
-            string s = ("The Guest Request key is " + GuestRequestKey 
-                + " , and the client name is " + FamilyName + " " + PrivateName 
-                + " and his mail adress is " + MailAddress);
+            string s = ("The Guest Request key is " + GuestRequestkey 
+                + " , and the client name is " + familyName + " " + privateName 
+                + " and his mail adress is " + mailAddress);
             return s;
         }
-
-        // pas sur de mon coup
-        public GuestRequest()
-        {
-            this.GuestRequestKey = Configuration.NumStaticGuestRequest++;
-        }
-
-
 
     }
 }

@@ -44,5 +44,25 @@ namespace BL
         IEnumerable<int> GetAllBranch(Func<int, bool> predicate = null);
         #endregion
 
+        #region GROUPING
+        IGrouping<Enumeration.Area, GuestRequest> GetGuestReqGroupByArea(bool sorted = false);
+        IGrouping<int, GuestRequest> GetGuestRequestGroupByPersons(bool sorted = false);
+        IGrouping<int, Host> GetHostGroupByNumofHU(bool sorted = false);
+        IGrouping<Enumeration.Area, HostingUnit> GetHUGroupByArea(bool sorted = false);
+        #endregion
+
+        void UpdateMatriceHostingunit(Order or);
+        int CommissionCost(GuestRequest guestreq);
+        void UpdateOrderAndGuestReq(Order or);
+        List<HostingUnit> HostingUnitPerHost(Host h);
+        List<Order> OrderSelonHostingUnit(List<HostingUnit> listHU);
+        bool CheckMatrice(DateTime EntryD, DateTime ReleaseD, HostingUnit myhosting);
+        List<HostingUnit> HostingUnitFree(DateTime EntryD, int num);
+        int DifferenceDays(DateTime[] list);
+        List<Order> OrderSelonTime(int num);
+        int NumOfPropositionGR(GuestRequest guestreq);
+        int NumofPropositionHU(HostingUnit hu);
+        void NumTotalPersonGR(GuestRequest gs);
+
     }
 }

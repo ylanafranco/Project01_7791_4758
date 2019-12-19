@@ -8,19 +8,34 @@ namespace BE
 {
     public class Order : Enumeration
     {
+        //private int HostingUnitkey;
         public int HostingUnitKey { get; set; }
+
+        //private int GuestRequestkey;
         public int GuestRequestKey { get; set; }
-        public int OrderKey { get; set; }
-        public OrderStatus Status { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime OrderDate { get; set; }
-        public double PriceOfTheStay { get; set; }
+
+        private int orderKey;
+        public int OrderKey { get { return orderKey; } set { orderKey = Configuration.NumStaticOrder++; } }
+
+        private OrderStatus status;
+        public OrderStatus Status { get { return status; } set { status = value; } }
+
+        private DateTime createDate;
+        public DateTime CreateDate { get { return createDate; } set { createDate = value; } }
+
+        private DateTime orderDate;
+        public DateTime OrderDate { get { return orderDate; } set { orderDate = value; } }
+
+        private double priceOfTheStay;
+        public double PriceOfTheStay { get { return priceOfTheStay; } set { priceOfTheStay = value; } }
+
         // ichour de paiment 
-        public bool PaymentConfirmation { get; set; }
+        private bool paymentConfirmation;
+        public bool PaymentConfirmation { get { return paymentConfirmation; } set { paymentConfirmation = value; } }
 
         public override string ToString()
         {
-            string s = ("The Order number is " + OrderKey
+            string s = ("The Order number is " + orderKey
                 + " , the Hosting Unit Key is " + HostingUnitKey
                 + " and the Guest Request key is " + GuestRequestKey);
             return s;

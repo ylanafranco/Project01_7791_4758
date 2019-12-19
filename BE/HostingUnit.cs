@@ -8,13 +8,36 @@ namespace BE
 {
     public class HostingUnit : Enumeration
     {
-        public int HostingUnitKey = Configuration.NumStaticHostingUnit;
-        public Host Owner { get; set; }
-        public string HostingUnitName { get; set; }
-        public Area Areaa { get; set; }
-        public Type Typee { get; set; }
-        public int Room { get; set; }
-        public bool[,] Diary { get; set; } = new bool[12, 31];
+        private int HostingUnitkey;
+        public int HostingUnitKey
+        {
+            get { return HostingUnitkey; }
+            set { HostingUnitkey = Configuration.NumStaticHostingUnit++; }
+        }
+
+        private Host owner;
+        public Host Owner { get { return owner; } set { owner = value; } }
+
+        private string HostingUnitname;
+        public string HostingUnitName { get { return HostingUnitname; } set { HostingUnitname = value; } }
+
+        private Area areaa;
+        public Area Areaa { get { return areaa; } set { areaa = value; } }
+
+        private Type typee;
+        public Type Typee { get { return typee; } set { typee = value; } }
+
+        private int room;
+        public int Room { get { return room; } set { room = value; } }
+
+        private bool[,] diary;
+        public bool[,] Diary
+        {
+            get { return diary; }
+            set { diary = new bool[12, 31]; }
+        }
+        
+        
         public bool Jacuzzi { get; set; }
         public bool Garden { get; set; }
         public bool Spa { get; set; }
@@ -31,7 +54,12 @@ namespace BE
         public bool Restaurant { get; set; }
         public bool AirConditionner { get; set; }
         public bool ChildrenAttraction { get; set; }
-        public double PricePerNight { get; set; }
+
+        private double pricePerNight;
+        public double PricePerNight { get { return pricePerNight; } set { pricePerNight = value; } }
+
+        public List<string> Uris { get; set; }
+
         public override string ToString()
         {
             string s = ("The Hosting Unit Key and it name are " + HostingUnitKey + " and " + HostingUnitName 

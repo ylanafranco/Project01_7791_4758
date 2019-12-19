@@ -16,12 +16,9 @@ namespace BL
         public BL_imp()
         {
             dal = DAL.FactoryDAL.GetDAL();
-            init();
+            
         }
 
-        public void init()
-        {
-        }
 
         #region ADD
         public void AddGuestRequest(GuestRequest gs)
@@ -33,6 +30,7 @@ namespace BL
                 throw new ArgumentException("You need to recheck your dates. This is not valid.");
             }
             else
+                gs.RegistrationDate = DateTime.Now;
                 dal.AddGuestRequest(gs);
         }
 
@@ -46,16 +44,19 @@ namespace BL
                 throw new ArgumentException("The dates are not available for this hosting unit");
 
             }
+            or.CreateDate = DateTime.Now;
             dal.AddOder(or);
         }
 
         public void AddHost(Host h)
         {
+            
             dal.AddHost(h);
         }
 
         public void AddHostingUnit(HostingUnit hu)
         {
+            // verifier que son owner il existe dans le systeme
             dal.AddHostingUnit(hu);
         }
         #endregion
@@ -74,6 +75,8 @@ namespace BL
 
                 //MaJ du statut de tous les orders avec cette guest request pour les fermer
                 UpdateOrderAndGuestReq(or);
+
+                or.PaymentConfirmation = true;
             }
 
             else if (or.Status == Enumeration.OrderStatus.NotAddressed)
@@ -88,6 +91,7 @@ namespace BL
             }
             else if (or.Status == Enumeration.OrderStatus.SentEmail)
             {
+                or.OrderDate = DateTime.Now;
                 // faire une fonction pour envoyer un mail 
                 Console.WriteLine("MAIL SENT");
             }
@@ -139,6 +143,9 @@ namespace BL
 
         public void EraseHost(int key)
         {
+            // verifier qu'il n'a pas de reservation en cours 
+            // verifier qu'on a enlever tous ces hosting unit aussi 
+            // ou si on enleve ca alors ca va gorer qu'on enleve ses hosting unit
             dal.EraseHost(key);
         }
         #endregion
@@ -373,6 +380,7 @@ namespace BL
         
         }
 
+        #region GROUPING
         public IGrouping<Enumeration.Area, GuestRequest> GetGuestReqGroupByArea(bool sorted = false)
         {
             return (IGrouping<Enumeration.Area, GuestRequest>)from gs in dal.GetAllGuestRequest()
@@ -396,7 +404,21 @@ namespace BL
             return (IGrouping<Enumeration.Area, HostingUnit>)from hu in dal.GetAllHostingUnitCollection()
                                                group hu by hu.Areaa;
         }
+        #endregion
 
 
+        public delegate bool condition(GuestRequest guestreq);
+        public List<GuestRequest> AllGuestRequestThat(condition Mycondition)
+        {
+            List<GuestRequest> myList = new List<GuestRequest>();
+            List<GuestRequest> allGR = dal.GetAllGuestRequest().ToList();
+            foreach (GuestRequest gs in allGR)
+            {
+                if (Mycondition(gs))
+                    myList.Add(gs);
+            }
+            return myList;
+
+        }
     }
 }
