@@ -70,6 +70,7 @@ namespace BL
         int NumOfPropositionGR(GuestRequest guestreq);
         int NumofPropositionHU(HostingUnit hu);
         void NumTotalPersonGR(GuestRequest gs);
-        
+
+        void testYourChance();
     }
 }

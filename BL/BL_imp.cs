@@ -538,5 +538,20 @@ namespace BL
                 }
             }
         }
+
+        public void testYourChance()
+        {
+            Random r = new Random();
+            int num = r.Next(1, 50);
+            Console.WriteLine("Better to miss a chance than not to have tried it: enter a number between 1 and 50 included");
+            string s = Console.ReadLine();
+            int x = int.Parse(s);
+            if (x == num)
+            {
+                Console.WriteLine("Omg, you just win your stay for free. Congrats!!");
+            }
+
+        }
+
     }
 }
