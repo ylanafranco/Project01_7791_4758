@@ -27,7 +27,7 @@ namespace DAL
         {
             GuestRequest guestR = GetGuestRequest(gs.GuestRequestKey); 
             if (guestR != null) 
-                throw new Exception("Guest Request already exists in the systeme...");
+                throw new InvalidOperationException("Guest Request already exists in the systeme...");
             DataSource.GetAllGuestRequest.Add(gs);
         }
 
@@ -35,7 +35,7 @@ namespace DAL
         {
             Host host = GetHost(h.HostKey);
             if (host != null)
-                throw new Exception("Host with the same id already exists...");
+                throw new InvalidOperationException("Host with the same id already exists...");
             DataSource.GetAllHost.Add(h);
         }
 
@@ -43,7 +43,7 @@ namespace DAL
         {
             HostingUnit hostU = GetHostingUnit(hu.HostingUnitKey);
             if (hostU != null)
-                throw new Exception("This Hosting Unit already exists in the systeme...");
+                throw new InvalidOperationException("This Hosting Unit already exists in the systeme...");
             DataSource.GetAllHostingUnitCollection.Add(hu);
         }
 
@@ -51,7 +51,7 @@ namespace DAL
         {
             Order order = GetOrder(or.OrderKey);
             if (order != null)
-                throw new Exception("This order already exists in the systeme...");
+                throw new InvalidOperationException("This order already exists in the systeme...");
             DataSource.GetAllOrder.Add(or);
         }
         #endregion
@@ -62,7 +62,7 @@ namespace DAL
             Host host = GetHost(key);
 
             if (host == null)
-                throw new Exception("This host is not found in the systeme...");
+                throw new InvalidOperationException("This host is not found in the systeme...");
             
             DataSource.GetAllHostingUnitCollection.RemoveAll(hu => hu.Owner.HostKey == key);
             DataSource.GetAllHost.Remove(host);
@@ -72,7 +72,7 @@ namespace DAL
         {
             HostingUnit hu = GetHostingUnit(key);
             if (hu == null)
-                throw new Exception("This hosting unit is not found in the systeme...");
+                throw new InvalidOperationException("This hosting unit is not found in the systeme...");
             DataSource.GetAllHostingUnitCollection.Remove(hu);
         }
         #endregion
@@ -142,7 +142,7 @@ namespace DAL
         {
             int index = DataSource.GetAllGuestRequest.FindIndex(guestr => guestr.GuestRequestKey ==gs.GuestRequestKey); 
             if (index == -1) 
-                throw new Exception("Guest Request is not found...");
+                throw new KeyNotFoundException("Guest Request is not found...");
             DataSource.GetAllGuestRequest[index] = gs;
         }
 
@@ -150,7 +150,7 @@ namespace DAL
         {
             int index = DataSource.GetAllHost.FindIndex(host => host.HostKey == h.HostKey);
             if (index == -1)
-                throw new Exception("This Host is not found...");
+                throw new KeyNotFoundException("This Host is not found...");
             DataSource.GetAllHost[index] = h;
         }
 
@@ -158,7 +158,7 @@ namespace DAL
         {
             int index = DataSource.GetAllHostingUnitCollection.FindIndex(hostinhu => hostinhu.HostingUnitKey == hu.HostingUnitKey);
             if (index == -1)
-                throw new Exception("This Hosting unit is not found...");
+                throw new KeyNotFoundException("This Hosting unit is not found...");
             DataSource.GetAllHostingUnitCollection[index] = hu;
         }
 
@@ -166,7 +166,7 @@ namespace DAL
         {
             int index = DataSource.GetAllOrder.FindIndex(order => order.OrderKey == or.OrderKey);
             if (index == -1)
-                throw new Exception("This order is not found...");
+                throw new KeyNotFoundException("This order is not found...");
             DataSource.GetAllOrder[index] = or;
         }
         #endregion

@@ -36,8 +36,8 @@ namespace BE
         public override string ToString()
         {
             string s = ("The Order number is " + orderKey
-                + " , the Hosting Unit Key is " + HostingUnitKey
-                + " and the Guest Request key is " + GuestRequestKey);
+                + " , concerning this hosting unit : " + HostingUnitKey
+                + " and this Guest Request : " + GuestRequestKey);
             return s;
         }
 

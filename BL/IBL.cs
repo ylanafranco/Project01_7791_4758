@@ -52,17 +52,24 @@ namespace BL
         #endregion
 
         void UpdateMatriceHostingunit(Order or);
-        int CommissionCost(GuestRequest guestreq);
+        void MatriceUptoZero(HostingUnit HU);
         void UpdateOrderAndGuestReq(Order or);
+        bool CheckMatrice(DateTime EntryD, DateTime ReleaseD, HostingUnit myhosting);
+        void initMatrice(HostingUnit HU);
+
+        int CommissionCost(GuestRequest guestreq);
+        double PriceOftheStay(Order or);
+        double Reduction(Order or);
+        int DifferenceDays(DateTime[] list);
+
         List<HostingUnit> HostingUnitPerHost(Host h);
         List<Order> OrderSelonHostingUnit(List<HostingUnit> listHU);
-        bool CheckMatrice(DateTime EntryD, DateTime ReleaseD, HostingUnit myhosting);
         List<HostingUnit> HostingUnitFree(DateTime EntryD, int num);
-        int DifferenceDays(DateTime[] list);
         List<Order> OrderSelonTime(int num);
+
         int NumOfPropositionGR(GuestRequest guestreq);
         int NumofPropositionHU(HostingUnit hu);
         void NumTotalPersonGR(GuestRequest gs);
-
+        
     }
 }

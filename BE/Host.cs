@@ -72,8 +72,8 @@ namespace BE
         public override string ToString()
         {
             string s = ("The Host Request key is " + hostKey 
-                + " , and the host name is " + familyName + " " + privateName 
-                + " and his mail adress is " + mailAddress);
+                + ",\nhis name is " + familyName + " " + privateName 
+                + "\nand his mail adress is " + mailAddress);
             return s;
         }
     }

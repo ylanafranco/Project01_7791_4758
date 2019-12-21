@@ -32,6 +32,14 @@ namespace BE
         public string PrivateName { get { return privateName.ToUpper(); }
             set { privateName = value; } }
 
+        private int id;
+        public int ID { get { return id; }
+            set { if(!Tool.isValidID(value))
+                    throw new ArgumentException(string.Format("This {0} is not valid", value));
+                id = value;
+            }
+        }
+
         private string mailAddress;
         public string MailAddress { get {return mailAddress; }
             set {
@@ -80,7 +88,7 @@ namespace BE
         {
             get { return releaseDate; }
             set {
-                if (value < EntryDate)
+                if (value < this.EntryDate)
                 {
                     throw new ArgumentException(string.Format("This date {0} has already passed.", value));
                 }
@@ -151,7 +159,7 @@ namespace BE
         public override string ToString()
         {
             string s = ("The Guest Request key is " + GuestRequestkey 
-                + " , and the client name is " + familyName + " " + privateName 
+                + " , the client name is " + familyName + " " + privateName 
                 + " and his mail adress is " + mailAddress);
             return s;
         }
