@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BE
@@ -9,17 +10,27 @@ namespace BE
     public class Tool
     {
 
-        public static bool IsValidEmail(string email)
+        public static bool IsValidEmail(string mail)
         {
-            try
+            //try
+            //{
+            //    var addr = new System.Net.Mail.MailAddress(email);
+            //    return addr.Address == email;
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
+
+            Regex r = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            if (r.IsMatch(mail) && mail.EndsWith("@gmail.com"))
             {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
+                return true;
+
             }
-            catch
-            {
+            else
                 return false;
-            }
+                
         }
 
 

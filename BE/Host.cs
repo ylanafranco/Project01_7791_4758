@@ -9,7 +9,7 @@ namespace BE
 {
     public class Host
     {
-        public int hostKey;
+        private int hostKey;
         public int HostKey { get { return hostKey; } 
             set {
                 if (!(Tool.isValidID(value)))
@@ -19,7 +19,7 @@ namespace BE
                 hostKey = value;
             } }
 
-        public string familyName;
+        private string familyName;
         public string FamilyName
         {
             get { return familyName.ToUpper(); }
@@ -29,26 +29,26 @@ namespace BE
             }
         }
 
-        public string privateName;
+        private string privateName;
         public string PrivateName
         {
             get { return privateName.ToUpper(); }
             set { privateName = value; }
         }
 
-        public string mailAddress;
+        private string mailAddress;
         public string MailAddress
         {
             get { return mailAddress; }
             set
             {
                 if (!(Tool.IsValidEmail(value)))
-                    throw new ArgumentException(string.Format("This {0} is not valid", value));
+                    throw new FormatException("Email address must be a valid gmail address!");
                 mailAddress = value;
             }
         }
 
-        public int phoneNumber;
+        private int phoneNumber;
         public int PhoneNumber
         {
             get { return phoneNumber; }
@@ -63,17 +63,25 @@ namespace BE
             }
         }
 
-        public BankAccount bankAccount;
+        private BankAccount bankAccount;
         public BankAccount BankAccount { get; set; }
 
-        public bool collectionClearance;
+        private int bankAccountNumber;
+        public int BankAccountNumber { get { return bankAccountNumber; } set { bankAccountNumber = value; } }
+
+
+        private bool collectionClearance;
         public bool CollectionClearance { get { return collectionClearance; } set { collectionClearance = value; } }
 
         public override string ToString()
         {
-            string s = ("The Host Request key is " + hostKey 
-                + ",\nhis name is " + familyName + " " + privateName 
-                + "\nand his mail adress is " + mailAddress);
+            string s = ("Host Details :\n" +
+                "The Host Key : " + hostKey
+                + ",\nName : " + familyName + " " + privateName
+                + ",\nMail Address : " + mailAddress
+                + "\nPhone Number :" + phoneNumber
+                + "\nDetails Bank Account :" + BankAccount.ToString()
+                + "\nBank Account Number : " + bankAccountNumber);
             return s;
         }
     }

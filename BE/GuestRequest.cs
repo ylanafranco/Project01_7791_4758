@@ -44,7 +44,7 @@ namespace BE
         public string MailAddress { get {return mailAddress; }
             set {
                 if (!(Tool.IsValidEmail(value)))
-                    throw new ArgumentException(string.Format("This {0} is not valid", value));
+                    throw new FormatException("Email address must be a valid gmail address!");
                 mailAddress = value;
             } }
 
@@ -158,9 +158,17 @@ namespace BE
 
         public override string ToString()
         {
-            string s = ("The Guest Request key is " + GuestRequestkey 
-                + " , the client name is " + familyName + " " + privateName 
-                + " and his mail adress is " + mailAddress);
+            string s = ("Guest Request Details : " +
+                "\nGuest Request key : " + GuestRequestkey 
+                + "\nName :" + familyName + " " + privateName 
+                + "\nMail : " + mailAddress
+                + "\nPhone Number : " + phoneNumber 
+                + "\nStatus : " + Status
+                + "\nEntry Date : " + entryDate
+                + "\nRelease Date : " + releaseDate
+                + "\nType : " + type
+                + "\nArea : " + area
+                + "\nNum of people :" + (Children + Adults));
             return s;
         }
 

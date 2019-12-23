@@ -23,14 +23,13 @@ namespace BE
         private string branchCity;
         public string BranchCity { get { return branchCity; } set { branchCity = value; } }
 
-        private int bankAccountNumber;
-        public int BankAccountNumber { get { return bankAccountNumber; } set { bankAccountNumber = value; } }
-
         public override string ToString()
         {
-            string s = ("The bank name is " + bankName 
-                + " , the bank account number is " + bankAccountNumber
-                + " , and the branch number is " + branchNumber);
+            string s = ("Bank Account Details :\n" +
+                "Bank Name : " + bankName 
+                + "\n Branch Number : " + branchNumber
+                + "\nBank Number : " + bankName
+                + "\nBranch Address : " + branchAddress + " , " + branchCity);
             return s;
         }
 

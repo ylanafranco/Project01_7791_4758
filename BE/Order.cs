@@ -35,9 +35,14 @@ namespace BE
 
         public override string ToString()
         {
-            string s = ("The Order number is " + orderKey
-                + " , concerning this hosting unit : " + HostingUnitKey
-                + " and this Guest Request : " + GuestRequestKey);
+            string s = ("Order Details : " +
+                "\nOrder Number : " + orderKey
+                + "\nHosting Unit Key : " + HostingUnitKey
+                + "\nGuest Request Key : " + GuestRequestKey
+                + "\nCreate Date : " + createDate
+                + "\nOrder Date : " + orderDate
+                + "\nStatus : " + status
+                + "\nPrice of the Stay : " + priceOfTheStay);
             return s;
         }
 

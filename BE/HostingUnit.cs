@@ -62,8 +62,13 @@ namespace BE
 
         public override string ToString()
         {
-            string s = ("The Hosting Unit Key and name are : " + HostingUnitKey + ", " + HostingUnitName 
-                + ". \nThe information about the Owner: \n" + Owner.ToString());
+            string s = ("Hosting Unit Details : " +
+                "\nHosting Unit Key : " + HostingUnitKey + 
+                "\n Hosting Unit Name : " + HostingUnitName 
+                + "\nOwner : \n" + Owner.ToString()
+                + "\nType : " + typee
+                + "\nArea : " + areaa
+                + "\nNumber of rooms :" + room);
             return s;
         }
 
