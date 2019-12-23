@@ -10,8 +10,8 @@ namespace BE
 {
     public class GuestRequest : Enumeration
     {
-        private int GuestRequestkey;
-        public int GuestRequestKey
+        private long GuestRequestkey;
+        public long GuestRequestKey
         {
             get { return GuestRequestkey; }
             set { GuestRequestkey = Configuration.NumStaticGuestRequest++; }
@@ -154,7 +154,7 @@ namespace BE
         public override string ToString()
         {
             string s = ("Guest Request Details : " +
-                "\nGuest Request key : " + GuestRequestkey 
+                "\nGuest Request key : " + GuestRequestkey
                 + "\nName :" + familyName + " " + privateName 
                 + "\nMail : " + mailAddress
                 + "\nPhone Number : " + phoneNumber 

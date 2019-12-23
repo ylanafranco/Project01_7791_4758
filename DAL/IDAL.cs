@@ -12,7 +12,7 @@ namespace DAL
         #region GuestRequestFonction
         void AddGuestRequest(GuestRequest gs);
         void UpdateGuestRequest(GuestRequest gs);
-        GuestRequest GetGuestRequest(int key);
+        GuestRequest GetGuestRequest(long key);
         #endregion
 
         #region HostFonction
@@ -24,9 +24,9 @@ namespace DAL
 
         #region HostingUnitFonction
         void AddHostingUnit(HostingUnit hu);
-        void EraseHostingUnit(int Key);
+        void EraseHostingUnit(long Key);
         void UpdateHostingUnit(HostingUnit hu);
-        HostingUnit GetHostingUnit(int key);
+        HostingUnit GetHostingUnit(long key);
         #endregion
 
         #region OrderFonction

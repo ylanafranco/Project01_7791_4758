@@ -237,7 +237,7 @@ namespace BL
         #endregion
 
         #region ERASE
-        public void EraseHostingUnit(int hostingunitkey)
+        public void EraseHostingUnit(long hostingunitkey)
         {
             try { 
             HostingUnit myhosting = GetHostingUnit(hostingunitkey);
@@ -290,7 +290,7 @@ namespace BL
         #endregion
 
         #region GET 
-        public GuestRequest GetGuestRequest(int key)
+        public GuestRequest GetGuestRequest(long key)
         {
             return dal.GetGuestRequest(key);
         }
@@ -300,7 +300,7 @@ namespace BL
             return dal.GetHost(key);
         }
 
-        public HostingUnit GetHostingUnit(int key)
+        public HostingUnit GetHostingUnit(long key)
         {
             return dal.GetHostingUnit(key);
         }
@@ -618,7 +618,7 @@ namespace BL
 
         public bool checkCollectionClearance(Host H)
         {
-            if (H.BankAccount.BankNumber != 0 && H.BankAccount.BankName != "" && H.BankAccount.BranchAddress != "" && H.BankAccount.BranchCity != "" && H.BankAccount.BranchNumber != 0 && H.BankAccountNumber != 0)
+            if (H.BankNumber != 0 && H.BankName != "" && H.BranchAddress != "" && H.BranchCity != "" && H.BranchNumber != 0 && H.BankAccountNumber != 0)
             {
                 return true;
             }

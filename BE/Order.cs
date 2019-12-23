@@ -9,10 +9,10 @@ namespace BE
     public class Order : Enumeration
     {
         //private int HostingUnitkey;
-        public int HostingUnitKey { get; set; }
+        public long HostingUnitKey { get; set; }
 
         //private int GuestRequestkey;
-        public int GuestRequestKey { get; set; }
+        public long GuestRequestKey { get; set; }
 
         private int orderKey;
         public int OrderKey { get { return orderKey; } set { orderKey = Configuration.NumStaticOrder++; } }

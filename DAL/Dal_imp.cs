@@ -91,7 +91,7 @@ namespace DAL
             DataSource.GetAllHost.Remove(host);
         }
 
-        public void EraseHostingUnit(int key)
+        public void EraseHostingUnit(long key)
         {
             HostingUnit hu = GetHostingUnit(key);
             if (hu == null)
@@ -139,7 +139,7 @@ namespace DAL
         #endregion
 
         #region GET FUNCTION
-        public GuestRequest GetGuestRequest(int key)
+        public GuestRequest GetGuestRequest(long key)
         {
             return DataSource.GetAllGuestRequest.FirstOrDefault(gs => gs.GuestRequestKey == key);
         }
@@ -149,7 +149,7 @@ namespace DAL
             return DataSource.GetAllHost.FirstOrDefault(h => h.HostKey == key);
         }
 
-        public HostingUnit GetHostingUnit(int key)
+        public HostingUnit GetHostingUnit(long key)
         {
             return DataSource.GetAllHostingUnitCollection.FirstOrDefault(hu => hu.HostingUnitKey == key);
         }

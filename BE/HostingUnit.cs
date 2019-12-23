@@ -8,8 +8,8 @@ namespace BE
 {
     public class HostingUnit : Enumeration
     {
-        private int HostingUnitkey;
-        public int HostingUnitKey
+        private long HostingUnitkey;
+        public long HostingUnitKey
         {
             get { return HostingUnitkey; }
             set { HostingUnitkey = Configuration.NumStaticHostingUnit++; }
@@ -68,7 +68,8 @@ namespace BE
                 + "\nOwner : \n" + Owner.ToString()
                 + "\nType : " + typee
                 + "\nArea : " + areaa
-                + "\nNumber of rooms :" + room);
+                + "\nNumber of rooms :" + room
+                + "\nPrice per night :" + pricePerNight);
             return s;
         }
 

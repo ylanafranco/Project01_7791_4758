@@ -37,7 +37,7 @@ namespace BE
         public static bool isValidNumber(int num)
         {
             string str = num.ToString();
-            if (str.Length == 10)
+            if (str.Length == 9)
                 return true;
             return false;
         }
