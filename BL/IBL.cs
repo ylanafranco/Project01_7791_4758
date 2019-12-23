@@ -72,5 +72,6 @@ namespace BL
         void NumTotalPersonGR(GuestRequest gs);
 
         void testYourChance();
+        bool checkCollectionClearance(Host H);
     }
 }

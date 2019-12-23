@@ -25,18 +25,41 @@ namespace DAL
         #region ADD FUNCTION
         public void AddGuestRequest(GuestRequest gs)
         {
-            GuestRequest guestR = GetGuestRequest(gs.GuestRequestKey); 
-            if (guestR != null) 
-                throw new InvalidOperationException("Guest Request already exists in the systeme...");
-            DataSource.GetAllGuestRequest.Add(gs);
+            GuestRequest guestR = GetGuestRequest(gs.GuestRequestKey);
+            try
+            {
+                if (guestR != null)
+                    throw new InvalidOperationException("Guest Request already exists in the systeme...");
+                DataSource.GetAllGuestRequest.Add(gs);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("BE Problem :" + ex.Message);
+            }
+            catch (FormatException ex1)
+            {
+                throw new FormatException("BE Problem :" + ex1.Message);
+            }
+            
         }
 
         public void AddHost(Host h)
         {
             Host host = GetHost(h.HostKey);
-            if (host != null)
-                throw new InvalidOperationException("Host with the same id already exists...");
-            DataSource.GetAllHost.Add(h);
+            try
+            {
+                if (host != null)
+                    throw new InvalidOperationException("Host with the same id already exists...");
+                DataSource.GetAllHost.Add(h);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("BE Problem :" + ex.Message);
+            }
+            catch (FormatException ex1)
+            {
+                throw new FormatException("BE Problem :" + ex1.Message);
+            }
         }
 
         public void AddHostingUnit(HostingUnit hu)

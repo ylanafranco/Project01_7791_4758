@@ -87,12 +87,7 @@ namespace BE
         public DateTime ReleaseDate
         {
             get { return releaseDate; }
-            set {
-                if (value < this.EntryDate)
-                {
-                    throw new ArgumentException(string.Format("This date {0} has already passed.", value));
-                }
-                releaseDate = value; }
+            set { releaseDate = value; }
         }
 
         private int numberofDays;

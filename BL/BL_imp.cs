@@ -23,67 +23,93 @@ namespace BL
         #region ADD
         public void AddGuestRequest(GuestRequest gs)
         {
-            if (gs.FamilyName == "" || gs.PrivateName == "" || gs.EntryDate == null || gs.ReleaseDate == null || !(Tool.isValidID(gs.ID)) || !(Tool.IsValidEmail(gs.MailAddress) || !(Tool.isValidNumber(gs.PhoneNumber))))
+            try
             {
-                throw new ArgumentException("You need to fill all this information, please.");
+                if (gs.FamilyName == "" || gs.PrivateName == "" || gs.EntryDate == null || gs.ReleaseDate == null || !(Tool.isValidID(gs.ID)) || !(Tool.IsValidEmail(gs.MailAddress) || !(Tool.isValidNumber(gs.PhoneNumber))))
+                {
+                    throw new ArgumentException("You need to fill all this information, please.");
+                }
+                gs.RegistrationDate = DateTime.Now;
+                string diff = (gs.ReleaseDate - gs.EntryDate).TotalDays.ToString();
+                int num = int.Parse(diff);
+                if (num <= 0 || (gs.RegistrationDate > gs.EntryDate))
+                {
+                    throw new ArgumentException("You need to recheck your dates. This is not valid.");
+                }
+                else
+                {
+                    gs.NumTotalPersons = gs.Adults + gs.Children;
+                    gs.Status = Enumeration.GuestRequestStatus.Open;
+                }
+
+                dal.AddGuestRequest(gs);
             }
-            gs.RegistrationDate = DateTime.Now;
-            string diff = (gs.ReleaseDate - gs.EntryDate).TotalDays.ToString();
-            int num = int.Parse(diff);
-            if (num <= 0 || (gs.RegistrationDate > gs.EntryDate))
+            catch (InvalidOperationException ex)
             {
-                throw new ArgumentException("You need to recheck your dates. This is not valid.");
-            }
-            else
-            {   gs.NumTotalPersons = gs.Adults + gs.Children;
-                gs.Status = Enumeration.GuestRequestStatus.Open;
+                throw new InvalidOperationException("DAL PROBLEM : " + ex.Message);
             }
 
-            dal.AddGuestRequest(gs);
-        }
+            }
 
         public void AddOrder(Order or)
         {
-            GuestRequest guestreq = GetGuestRequest(or.GuestRequestKey);
-            HostingUnit myhosting = GetHostingUnit(or.HostingUnitKey);
-            if (guestreq != null && myhosting!=null )
+            try
             {
-                bool flag = CheckMatrice(guestreq.EntryDate, guestreq.ReleaseDate, myhosting);
-                if (flag == true)
+                GuestRequest guestreq = GetGuestRequest(or.GuestRequestKey);
+                HostingUnit myhosting = GetHostingUnit(or.HostingUnitKey);
+                if (guestreq != null && myhosting != null)
                 {
-                    throw new ArgumentException("The dates are not available for this hosting unit");
+                    bool flag = CheckMatrice(guestreq.EntryDate, guestreq.ReleaseDate, myhosting);
+                    if (flag == true)
+                    {
+                        throw new ArgumentException("The dates are not available for this hosting unit");
+
+                    }
+                    or.CreateDate = DateTime.Now;
+                    or.Status = Enumeration.OrderStatus.NotAddressed;
+                    dal.AddOder(or);
+                }
+                else
+                {
+                    if (guestreq == null && myhosting != null)
+                    {
+                        throw new KeyNotFoundException("This request does not exist.");
+                    }
+                    else if (myhosting == null)
+                    {
+                        throw new KeyNotFoundException("This Hosting Unit does not exist.");
+                    }
 
                 }
-                or.CreateDate = DateTime.Now;
-                or.Status = Enumeration.OrderStatus.NotAddressed;
-                dal.AddOder(or);
             }
-            else
+            catch (InvalidOperationException ex)
             {
-                if (guestreq == null && myhosting != null)
-                {
-                    throw new KeyNotFoundException("This request does not exist.");
-                }
-                else if (myhosting == null)
-                {
-                    throw new KeyNotFoundException("This Hosting Unit does not exist.");
-                }
-                
+                throw new InvalidOperationException("DAL PROBLEM : " + ex.Message);
             }
             
         }
 
         public void AddHost(Host h)
         {
-            if (h.FamilyName == "" || h.PrivateName == "" || !(Tool.isValidID(h.HostKey)) || !(Tool.IsValidEmail(h.MailAddress) || !(Tool.isValidNumber(h.PhoneNumber))))
+            try
             {
-                throw new ArgumentException("You need to fill all this information, please.");
+                if (h.FamilyName == "" || h.PrivateName == "" || !(Tool.isValidID(h.HostKey)) || !(Tool.IsValidEmail(h.MailAddress) || !(Tool.isValidNumber(h.PhoneNumber))))
+                {
+                    throw new ArgumentException("You need to fill all this information, please.");
+                }
+                h.CollectionClearance = checkCollectionClearance(h);
+                dal.AddHost(h);
             }
-            dal.AddHost(h);
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException("DAL PROBLEM : " + ex.Message);
+            }
+
         }
 
         public void AddHostingUnit(HostingUnit hu)
         {
+            try { 
             // verifier que son owner il existe dans le systeme
             if (GetHost(hu.Owner.HostKey) == null)
             {
@@ -95,12 +121,18 @@ namespace BL
             }
             initMatrice(hu);
             dal.AddHostingUnit(hu);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException("DAL PROBLEM : " + ex.Message);
+            }
         }
         #endregion
 
         #region UPDATE
         public void UpdateOrder(Order or)
         {
+            try { 
             if (or.Status == Enumeration.OrderStatus.ClosedForCustomerResponse)
             {
                 // on met a jour la maarehet comme quoi c reserve , on envoie la reservation 
@@ -149,27 +181,45 @@ namespace BL
                 Console.WriteLine("MAIL SENT");
             }
             dal.UpdateOrder(or);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException("DAL PROBLEM : " + ex.Message);
+            }
         }
 
         public void UpdateGuestRequest(GuestRequest gs)
         {
+            try { 
             if (gs.EntryDate == DateTime.Now)
             {
                 gs.Status = Enumeration.GuestRequestStatus.ClosedBecauseItExpired;
                 Console.WriteLine("Your request is closed because you didn't close any deal.");
             }
             dal.UpdateGuestRequest(gs);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException("DAL PROBLEM : " + ex.Message);
+            }
         }
 
         public void UpdateHostingUnit(HostingUnit hu)
         {
-            if (DateTime.Now.Day == 1)
+            try{
+                if (DateTime.Now.Day == 1)
                 MatriceUptoZero(hu);
             dal.UpdateHostingUnit(hu);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException("DAL PROBLEM : " + ex.Message);
+            }
         }
 
         public void UpdateHost(Host h)
         {
+            try { 
             List<HostingUnit> listHostingUnit = HostingUnitPerHost(h);
             List<Order> Orders = OrderSelonHostingUnit(listHostingUnit);
             if (Orders.Count() != 0)
@@ -178,12 +228,18 @@ namespace BL
             }
 
             dal.UpdateHost(h);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException("DAL PROBLEM : " + ex.Message);
+            }
         }
         #endregion
 
         #region ERASE
         public void EraseHostingUnit(int hostingunitkey)
         {
+            try { 
             HostingUnit myhosting = GetHostingUnit(hostingunitkey);
             bool flag = false;
             foreach (var item in dal.GetAllOrder())
@@ -197,10 +253,16 @@ namespace BL
                 throw new Exception("There is still Guest Request open with this Hosting Unit. You can't delete it.");
             else
                 dal.EraseHostingUnit(hostingunitkey);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException("DAL PROBLEM : " + ex.Message);
+            }
         }
 
         public void EraseHost(int key)
         {
+            try { 
             Host hostt = GetHost(key);
             //bool flag = false;
             List<HostingUnit> listHostingUnit = HostingUnitPerHost(hostt);
@@ -219,6 +281,11 @@ namespace BL
                 throw new ArgumentException("It seems there is still one order open with one or your hosting Unit. We can't delete you from the system.");
             }
             dal.EraseHost(key);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException("DAL PROBLEM : " + ex.Message);
+            }
         }
         #endregion
 
@@ -508,13 +575,9 @@ namespace BL
         public void MatriceUptoZero(HostingUnit HU)
         {            
             int month = (DateTime.Now.Month - 1);
-            if (DateTime.Now.Day == 1)
+            for (int i = 0; i < 31; i++)
             {
-                for (int i = 0; i < 31; i++)
-                {
-                    HU.Diary[month, i] = false;
-                }
-
+                    HU.Diary[month-1, i] = false;
             }
             dal.UpdateHostingUnit(HU);
         }
@@ -551,6 +614,15 @@ namespace BL
                 Console.WriteLine("Omg, you just win your stay for free. Congrats!!");
             }
 
+        }
+
+        public bool checkCollectionClearance(Host H)
+        {
+            if (H.BankAccount.BankNumber != 0 && H.BankAccount.BankName != "" && H.BankAccount.BranchAddress != "" && H.BankAccount.BranchCity != "" && H.BankAccount.BranchNumber != 0 && H.BankAccountNumber != 0)
+            {
+                return true;
+            }
+            return false;
         }
 
     }
