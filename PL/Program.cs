@@ -15,6 +15,7 @@ namespace PL
         {
 
             Host host = new Host();
+            Console.WriteLine("New Host");
             Console.WriteLine("Enter Your ID");
             host.HostKey = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter Your Name");
@@ -28,15 +29,16 @@ namespace PL
             Console.WriteLine("Enter Your Acount number");
             host.BankAccountNumber = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter Your Bank Number");
-            host.BankNumber= int.Parse(Console.ReadLine());
+            host.BankAccount = new BankAccount();
+            host.BankAccount.BankNumber = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter Your Branch Number");
-            host.BranchNumber = int.Parse(Console.ReadLine());
+            host.BankAccount.BranchNumber = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter Your Bank Name ");
-            host.BankName = Console.ReadLine();
+            host.BankAccount.BankName = Console.ReadLine();
             Console.WriteLine("Enter Your Bank Adress");
-            host.BranchAddress = Console.ReadLine();
+            host.BankAccount.BranchAddress = Console.ReadLine();
             Console.WriteLine("Enter Your Bank City");
-            host.BranchCity= Console.ReadLine();
+            host.BankAccount.BranchCity = Console.ReadLine();
 
             return host;
         }
@@ -45,6 +47,7 @@ namespace PL
         {
 
             GuestRequest gs = new GuestRequest();
+            Console.WriteLine("New Guest Req");
             gs.GuestRequestKey = Configuration.NumStaticGuestRequest;
             Console.WriteLine("Enter Your Name");
             gs.FamilyName = Console.ReadLine();
@@ -109,13 +112,14 @@ namespace PL
             return gs;
         }
 
-        public static HostingUnit CreateHostingUnit()
+        public static HostingUnit CreateHostingUnit(Host owner)
         {
             HostingUnit HU = new HostingUnit();
+            Console.WriteLine("New Hosting Unit");
             HU.HostingUnitKey = Configuration.NumStaticHostingUnit;
             Console.WriteLine("Enter a name");
             HU.HostingUnitName = Console.ReadLine();
-            HU.Owner = Createhost();
+            HU.Owner = owner;
             Console.WriteLine("Enter Your Area : choose between Jerusalem,North, South, Center");
             string area = Console.ReadLine();
             if (area == "Jerusalem")
@@ -166,26 +170,91 @@ namespace PL
 
         }
 
-        public static CreateOrder()
+        public static Order CreateOrder(long guestreqkey, long hostingunitkey)
         {
             Order OR = new Order();
-            OR.GuestRequestKey = 10000000;
-            OR.HostingUnitKey = 10000000;
+            OR.GuestRequestKey = guestreqkey;
+            OR.HostingUnitKey = hostingunitkey;
             OR.OrderKey = Configuration.NumStaticOrder;
-
+            OR.CreateDate = DateTime.Now;
+            return OR;
         }
 
         static void Main(string[] args)
         {
-            //Host host = new Host();
-            //host = Createhost();
-            //Console.WriteLine(host.ToString());
-            //GuestRequest gs = new GuestRequest();
-            //gs = CreateGuestReq();
-            //Console.WriteLine(gs.ToString());
+            Host host = new Host();
+            host = Createhost();
+            bl.AddHost(host);
+            host.CollectionClearance = false;
+            bl.UpdateHost(host);
+            foreach (var item in bl.GetAllHost())
+            {
+                Console.WriteLine(host.ToString());
+            }
+            //host.PhoneNumber = 0542234632;
+            //bl.UpdateHost(host);
+            //foreach (var item in bl.GetAllHost())
+            //{
+            //    Console.WriteLine(host.ToString());
+            //}
+            Console.WriteLine("\n");
+            GuestRequest gs = new GuestRequest();
+            gs = CreateGuestReq();
+            bl.AddGuestRequest(gs);
+            Console.WriteLine("\n");
+            foreach (var item in bl.GetAllGuestRequest())
+            {
+                Console.WriteLine(gs.ToString());
+            }
+            Console.WriteLine("\n");
             HostingUnit HU = new HostingUnit();
-            HU = CreateHostingUnit();
-            Console.WriteLine(HU.ToString());
+            HU = CreateHostingUnit(host);
+            bl.AddHostingUnit(HU);
+            Console.WriteLine("\n");
+            foreach (var item in bl.GetAllHostingUnitCollection())
+            {
+                Console.WriteLine(HU.ToString());
+
+            }
+            Console.WriteLine("\n");
+            Order Or = new Order();
+            Or = CreateOrder(gs.GuestRequestKey, HU.HostingUnitKey);
+            bl.AddOrder(Or);
+            Console.WriteLine("\n");
+            foreach (var item in bl.GetAllOrder())
+            {
+                Console.WriteLine(Or.ToString());
+
+            }
+            Console.WriteLine("\n");
+            bl.UpdateOrder(Or);
+            Console.WriteLine("\n");
+            foreach (var item in bl.GetAllOrder())
+            {
+                Console.WriteLine(Or.ToString());
+
+            }
+            Console.WriteLine("\n");
+            //Or.Status = Enumeration.OrderStatus.ClosedForCustomerResponse;
+            //bl.UpdateOrder(Or);
+            //Console.WriteLine("\n");
+            //foreach (var item in bl.GetAllOrder())
+            //{
+            //    Console.WriteLine(Or.ToString());
+
+            //}
+            //Console.WriteLine("\n");
+            //bl.UpdateOrder(Or);
+            //Console.WriteLine("\n");
+            //foreach (var item in bl.GetAllOrder())
+            //{
+            //    Console.WriteLine(Or.ToString());
+
+            //}
+            Console.WriteLine("\n");
+            //elle est ok
+            bl.testYourChance();
+
             Console.WriteLine("enter key");
             Console.ReadKey();
 

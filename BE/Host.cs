@@ -7,7 +7,7 @@ using System.Net.Mail;
 
 namespace BE
 {
-    public class Host : BankAccount
+    public class Host
     {
         private int hostKey;
         public int HostKey { get { return hostKey; } 
@@ -63,8 +63,8 @@ namespace BE
             }
         }
 
-        ////private BankAccount bankAccount;
-        //public BankAccount BankAccount { get;  set; }
+        private BankAccount bankAccount;
+        public BankAccount BankAccount { get { return bankAccount; }  set { bankAccount = value; } }
 
         private int bankAccountNumber;
         public int BankAccountNumber { get { return bankAccountNumber; } set { bankAccountNumber = value; } }
@@ -79,9 +79,9 @@ namespace BE
                 "The Host Key : " + hostKey
                 + ",\nName : " + familyName + " " + privateName
                 + ",\nMail Address : " + mailAddress
-                + "\nPhone Number :" + phoneNumber
-                + "\nDetails Bank Account :" + base.ToString()
-                + "\nBank Account Number : " + bankAccountNumber);
+                + "\nPhone Number :" + "0" +phoneNumber
+                + "\nDetails Bank Account :" + BankAccount.ToString()
+                + "\nBank Account Number : " + bankAccountNumber) ;
             return s;
         }
     }

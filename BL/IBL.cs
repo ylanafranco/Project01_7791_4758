@@ -55,7 +55,7 @@ namespace BL
         void MatriceUptoZero(HostingUnit HU);
         void UpdateOrderAndGuestReq(Order or);
         bool CheckMatrice(DateTime EntryD, DateTime ReleaseD, HostingUnit myhosting);
-        void initMatrice(HostingUnit HU);
+        void initMatrice(bool[,] arr);
 
         int CommissionCost(GuestRequest guestreq);
         double PriceOftheStay(Order or);

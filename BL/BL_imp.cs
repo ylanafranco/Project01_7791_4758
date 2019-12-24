@@ -119,7 +119,8 @@ namespace BL
             {
                 throw new ArgumentException("You need to fill all this information, please.");
             }
-            initMatrice(hu);
+            hu.Diary = new bool[12,31];
+            initMatrice(hu.Diary);
             dal.AddHostingUnit(hu);
             }
             catch (InvalidOperationException ex)
@@ -156,6 +157,11 @@ namespace BL
                 if (myHost.CollectionClearance == true)
                 {
                     or.Status = Enumeration.OrderStatus.SentEmail;
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, the host doen't have ichour gviya for the commission");
+                    or.Status = Enumeration.OrderStatus.NotAddressed;
                 }
             }
             else if (or.Status == Enumeration.OrderStatus.SentEmail)
@@ -219,15 +225,15 @@ namespace BL
 
         public void UpdateHost(Host h)
         {
-            try { 
-            List<HostingUnit> listHostingUnit = HostingUnitPerHost(h);
-            List<Order> Orders = OrderSelonHostingUnit(listHostingUnit);
-            if (Orders.Count() != 0)
-            {
-                h.CollectionClearance = true;
-            }
+            try {
+                List<HostingUnit> listHostingUnit = HostingUnitPerHost(h);
+                List<Order> Orders = OrderSelonHostingUnit(listHostingUnit);
+                if (Orders.Count() != 0)
+                {
+                    h.CollectionClearance = true;
+                }
 
-            dal.UpdateHost(h);
+                dal.UpdateHost(h);
             }
             catch (KeyNotFoundException ex)
             {
@@ -591,13 +597,13 @@ namespace BL
             return price;
         }
 
-        public void initMatrice(HostingUnit HU)
+        public void initMatrice(bool[,] arr)
         {
-            for (int i = 0; i < HU.Diary.GetLength(0); i++)
+            for (int i = 0; i < arr.GetLength(0); i++)
             {
-                for (int j = 0; j < HU.Diary.GetLength(1); j++)
+                for (int j = 0; j < arr.GetLength(1); j++)
                 {
-                    HU.Diary[i, j] = false;
+                    arr[i, j] = false;
                 }
             }
         }
@@ -605,20 +611,24 @@ namespace BL
         public void testYourChance()
         {
             Random r = new Random();
-            int num = r.Next(1, 50);
-            Console.WriteLine("Better to miss a chance than not to have tried it: enter a number between 1 and 50 included");
+            int num = r.Next(1, 30);
+            Console.WriteLine("Better to miss a chance than not to have tried it: enter a number between 1 and 30 included");
             string s = Console.ReadLine();
             int x = int.Parse(s);
             if (x == num)
             {
                 Console.WriteLine("Omg, you just win your stay for free. Congrats!!");
             }
+            else
+            {
+                Console.WriteLine(String.Format("Oh you lose! Test your chance in your next trip. The right number was {0}.", num));
+            }
 
         }
 
         public bool checkCollectionClearance(Host H)
         {
-            if (H.BankNumber != 0 && H.BankName != "" && H.BranchAddress != "" && H.BranchCity != "" && H.BranchNumber != 0 && H.BankAccountNumber != 0)
+            if ((H.BankAccount.BankNumber != 0) && (H.BankAccount.BankName != "") && (H.BankAccount.BranchAddress != "") && (H.BankAccount.BranchCity != "") && (H.BankAccount.BranchNumber != 0) && (H.BankAccountNumber != 0))
             {
                 return true;
             }

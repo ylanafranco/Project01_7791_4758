@@ -155,9 +155,9 @@ namespace BE
         {
             string s = ("Guest Request Details : " +
                 "\nGuest Request key : " + GuestRequestkey
-                + "\nName :" + familyName + " " + privateName 
+                + "\nName :" + familyName + " " + privateName
                 + "\nMail : " + mailAddress
-                + "\nPhone Number : " + phoneNumber 
+                + "\nPhone Number : " +"0"+ phoneNumber 
                 + "\nStatus : " + Status
                 + "\nEntry Date : " + entryDate
                 + "\nRelease Date : " + releaseDate
