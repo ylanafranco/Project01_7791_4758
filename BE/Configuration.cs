@@ -12,7 +12,7 @@ namespace BE
         public static long NumStaticHostingUnit = 10000000;
         public static int NumStaticOrder = 1;
         public static int Commission = 10;
-        public static string WEB_LICENSE_MAIL;
-        public static string MAIL_PASSWORD;
+        public static string MAIL = "befitbynana@gmail.com";
+        public static string MAIL_PASSWORD = "ylanaetclara";
     }
 }

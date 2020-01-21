@@ -1,0 +1,22 @@
+﻿<Window x:Class="PLWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        mc:Ignorable="d"
+        Title="Book Your Trip" Height="450" Width="800" Icon="image/holidays.jpg" >
+
+    <Window.Background>
+        <ImageBrush ImageSource="image/main.jpg"></ImageBrush>
+    </Window.Background>
+
+    <Grid>
+
+        <Button Content=" ☀ New Guest Request" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Margin="403,73,0,0" Click="ButtonGuestRequest_Click" Height="338" FontSize="22" />
+        <Button Content="웃 Hosting Unit"  Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Width="398" Height="338" Click="ButtonHostingUnit_Click" FontSize="24" RenderTransformOrigin="0.703,0.76" Margin="0,73,0,0" FontWeight="Bold"/>
+        <Button Content="♜ USER" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" RenderTransformOrigin="3.149,3.484" Margin="669,10,0,0" Height="34" Click="ButtonUser_Click" Grid.Row="0" FontSize="24" Grid.RowSpan="1"/>
+        <Label Name="titre" Content="It's time for a break !" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top" Height="89" Width="462" FontSize="48" FontWeight="Bold" FontFamily="Forte"/>
+
+    </Grid>
+</Window>

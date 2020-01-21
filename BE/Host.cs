@@ -22,7 +22,7 @@ namespace BE
         private string familyName;
         public string FamilyName
         {
-            get { return familyName.ToUpper(); }
+            get { return familyName; }
             set
             {
                 familyName = value;
@@ -32,7 +32,7 @@ namespace BE
         private string privateName;
         public string PrivateName
         {
-            get { return privateName.ToUpper(); }
+            get { return privateName; }
             set { privateName = value; }
         }
 

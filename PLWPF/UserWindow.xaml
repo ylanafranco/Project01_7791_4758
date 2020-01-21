@@ -1,0 +1,19 @@
+﻿<Window x:Class="PLWPF.UserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        mc:Ignorable="d"
+        Title="UserWindow" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="image/marble.jpeg"></ImageBrush>
+    </Window.Background>
+    <Grid>
+        <Button Content="View Guest Request List" HorizontalAlignment="Left" VerticalAlignment="Top" Width="793" Margin="0,33,0,0" Height="87" Click="Button_Click"/>
+        <Button Content="View Hosting Unit List" HorizontalAlignment="Left" VerticalAlignment="Top" Width="793" Margin="0,150,0,0" Height="94" Click="Button_Click_1"/>
+        <Button Content="View Order List" HorizontalAlignment="Left" VerticalAlignment="Top" Width="793" Margin="0,266,0,0" Height="81" Click="Button_Click_2"/>
+        <Button Content="Back to main menu" HorizontalAlignment="Left" VerticalAlignment="Top" Width="117" Margin="10,378,0,0" Height="33" Click="Button_Click_4"/>
+
+    </Grid>
+</Window>

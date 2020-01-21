@@ -45,16 +45,16 @@ namespace BL
         #endregion
 
         #region GROUPING
-        IGrouping<Enumeration.Area, GuestRequest> GetGuestReqGroupByArea(bool sorted = false);
-        IGrouping<int, GuestRequest> GetGuestRequestGroupByPersons(bool sorted = false);
-        IGrouping<int, Host> GetHostGroupByNumofHU(bool sorted = false);
-        IGrouping<Enumeration.Area, HostingUnit> GetHUGroupByArea(bool sorted = false);
+        IEnumerable<IGrouping<int, Host>> GetHostGroupByNumofHU(IEnumerable<Host> hosts);
+        IEnumerable<IGrouping<Enumeration.Area, GuestRequest>> GetGuestReqGroupByArea(IEnumerable<GuestRequest> guestReq);
+        IEnumerable<IGrouping<int, GuestRequest>> GetGuestRequestGroupByPersons(IEnumerable<GuestRequest> guestReq);
+        IEnumerable<IGrouping<Enumeration.Area, HostingUnit>> GetHUGroupByArea(IEnumerable<HostingUnit> hostingunits);
         #endregion
 
         void UpdateMatriceHostingunit(Order or);
         void MatriceUptoZero(HostingUnit HU);
         void UpdateOrderAndGuestReq(Order or);
-        bool CheckMatrice(DateTime EntryD, DateTime ReleaseD, HostingUnit myhosting);
+        bool CheckMatrice(GuestRequest mygr, HostingUnit myhosting);
         void initMatrice(bool[,] arr);
 
         int CommissionCost(GuestRequest guestreq);
@@ -64,14 +64,15 @@ namespace BL
 
         List<HostingUnit> HostingUnitPerHost(Host h);
         List<Order> OrderSelonHostingUnit(List<HostingUnit> listHU);
-        List<HostingUnit> HostingUnitFree(DateTime EntryD, int num);
+        //List<HostingUnit> HostingUnitFree(DateTime EntryD, int num);
         List<Order> OrderSelonTime(int num);
 
         int NumOfPropositionGR(GuestRequest guestreq);
         int NumofPropositionHU(HostingUnit hu);
-        void NumTotalPersonGR(GuestRequest gs);
+        int NumTotalPersonGR(int a, int b);
 
-        void testYourChance();
+        bool testYourChance(int mynum);
         bool checkCollectionClearance(Host H);
+        bool comparaison(GuestRequest gs, HostingUnit hu);
     }
 }

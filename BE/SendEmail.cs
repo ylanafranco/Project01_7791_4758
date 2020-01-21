@@ -15,7 +15,7 @@ namespace BE
 
             MailMessage mail = new MailMessage();
             mail.To.Add(to);
-            mail.From = new MailAddress(Configuration.WEB_LICENSE_MAIL);
+            mail.From = new MailAddress(Configuration.MAIL);
             mail.Subject = subject;
             mail.Body = body;
             if (body == "")
@@ -26,7 +26,7 @@ namespace BE
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.Gmail.com";
             //smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential(Configuration.WEB_LICENSE_MAIL, Configuration.MAIL_PASSWORD);
+            smtp.Credentials = new NetworkCredential(Configuration.MAIL, Configuration.MAIL_PASSWORD);
             smtp.EnableSsl = true;
             //smtp.Port = 587;
             try

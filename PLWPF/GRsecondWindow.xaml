@@ -1,0 +1,65 @@
+﻿<Window x:Class="PLWPF.GRsecondWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        mc:Ignorable="d"
+        Title="GRsecondWindow" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="image/paysage.jpeg"></ImageBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260*"/>
+            <ColumnDefinition Width="252*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="400*"/>
+            <RowDefinition Height="33*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="Pool" Content="Pool" FontSize="16" Margin="0,64,355.667,285.667" FontFamily="Yu Gothic UI Semibold" FontWeight="Bold" RenderTransformOrigin="0.521,0.983"  />
+        <Label x:Name="KidsClub" Content="Kids Club" FontSize="16" Margin="234,60,88.667,289.667" FontFamily="Yu Gothic UI Semibold" FontWeight="Bold" />
+        <Label x:Name="Parking" Content="Parking" FontSize="16" Margin="0,179,333.667,170.667" FontFamily="Yu Gothic UI Semibold" FontWeight="Bold" />
+        <Label x:Name="PetsAccepted" Content="Pets accepted" FontSize="16" Margin="234,175,51.667,174.667" FontFamily="Yu Gothic UI Semibold" FontWeight="Bold" RenderTransformOrigin="0.721,0.793" />
+        <Label x:Name="Wiffiincluted" Content="Wifi included" FontSize="16" Margin="112.333,175,159.333,174.667" FontFamily="Yu Gothic UI Semibold" FontWeight="Bold" Grid.Column="1" />
+        <Label x:Name="Foodincluted" Content="Food included" FontSize="16" Margin="114.333,60,134.333,289.667" FontFamily="Yu Gothic UI Semibold" FontWeight="Bold" Grid.Column="1" />
+
+
+        <Button x:Name="button" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Height="32" Click="Button_Click_1"/>
+        <Button x:Name="search" Content="Continue ☞" FontSize="16" Height="33" Width="101" HorizontalAlignment="Right" VerticalAlignment="Top" Click="continue_Click" Margin="0,355,93.6,0" Grid.Column="1"  />
+        <Button x:Name="cancel" Content="Cancel" FontSize="16" Height="33" Width="58" HorizontalAlignment="Right" VerticalAlignment="Top" Click="cancel_Click" Margin="0,355,27.6,0" Grid.Column="1"  />
+        <CheckBox x:Name="checkBox" Content="Necessary" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="79,73,0,0" RenderTransformOrigin="0.5,0.5" Width="82">
+            <CheckBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="359.492"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </CheckBox.RenderTransform>
+        </CheckBox>
+        <CheckBox x:Name="checkBox1" IsChecked="False" Content="Possible" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="79,96,0,0" Width="73"/>
+        <CheckBox x:Name="checkBox2" IsChecked="False" Content="Not interessed " HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="261.333,238,0,0"/>
+        <CheckBox x:Name="checkBox3" IsChecked="False"  Content="Possible" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="261.333,206,0,0"/>
+        <CheckBox x:Name="checkBox4" IsChecked="False"  Content="Necessary" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="261.333,175,0,0"/>
+        <CheckBox x:Name="checkBox5" IsChecked="False" Content="Not interessed " HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="261.333,125,0,0"/>
+        <CheckBox x:Name="checkBox6" IsChecked="False" Content="Possible" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="261.333,92,0,0"/>
+        <CheckBox x:Name="checkBox7"  IsChecked="False"  Content="Necessary" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="261.333,60,0,0" Width="92"/>
+        <CheckBox x:Name="checkBox8" IsChecked="False" Content="Not interessed " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.333,242,0,0" Width="101" Grid.Column="1"/>
+        <CheckBox x:Name="checkBox9" IsChecked="False" Content="Possible" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.333,206,0,0" Height="20" Grid.Column="1"/>
+        <CheckBox x:Name="checkBox10" IsChecked="False" Content="Necessary" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0.333,179,0,0" Grid.Column="1"/>
+        <CheckBox x:Name="checkBox11" IsChecked="False" Content="Not interessed" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1,3.434" Margin="79,242,0,0"/>
+        <CheckBox x:Name="checkBox12"  IsChecked="False" Content="Possible" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="79,210,0,0"/>
+        <CheckBox x:Name="checkBox13" IsChecked="False"  Content="Necessary" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="79,179,0,0"/>
+        <CheckBox x:Name="checkBox14" IsChecked="False" Content="Not interessed " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="402,129,0,0" Grid.ColumnSpan="2" Width="102"/>
+        <CheckBox x:Name="checkBox15" IsChecked="False" Content="Possible" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="402,96,0,0" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBox16" IsChecked="False" Content="Necessary" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="402,64,0,0" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="checkBox17" IsChecked="False" Content=" Not interessed " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="79,129,0,0" Width="109" />
+
+
+
+
+
+    </Grid>
+</Window>

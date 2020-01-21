@@ -1,0 +1,20 @@
+﻿<Window x:Class="PLWPF.DeleteHostingUnitWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        mc:Ignorable="d"
+        Title="DeleteHostingUnitWindow" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="image/marble.jpeg"></ImageBrush>
+    </Window.Background>
+    <Grid>
+        <Button Content="Delete" HorizontalAlignment="Left" Height="47" Margin="265,253,0,0" VerticalAlignment="Top" Width="231" Click="Button_Click" FontSize="18" FontFamily="Yu Gothic UI Semibold"/>
+        <Label Content="Enter the Hosting Unit Key that you want to delete :" HorizontalAlignment="Left" Height="50" Margin="133,113,0,0" VerticalAlignment="Top" Width="503" FontWeight="Bold" FontSize="20" FontFamily="Yu Gothic UI Semibold"/>
+        <Button x:Name="button" Content="←" HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Margin="10,29,0,0" Height="24" Click="Button_Click_1"/>
+        <Button x:Name="button1" Content="Return to main" HorizontalAlignment="Left" VerticalAlignment="Top" Width="116" Margin="668,362,0,0" Height="37" Click="Button1_Click" FontFamily="Yu Gothic UI"/>
+        <ComboBox Name="combodelete" HorizontalAlignment="Left" Margin="265,168,0,0" VerticalAlignment="Top" Width="231" Height="49"/>
+
+    </Grid>
+</Window>

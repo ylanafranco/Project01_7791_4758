@@ -34,11 +34,11 @@ namespace BL
                 int num = int.Parse(diff);
                 if (num <= 0 || (gs.RegistrationDate > gs.EntryDate))
                 {
-                    throw new ArgumentException("You need to recheck your dates. This is not valid.");
+                    throw new ArgumentException("You need to recheck your dates. This is not valid. entry date is " + gs.EntryDate + " release date is " + gs.ReleaseDate + "registration date is " + gs.RegistrationDate);
                 }
                 else
                 {
-                    gs.NumTotalPersons = gs.Adults + gs.Children;
+                    //gs.NumTotalPersons = gs.Adults + gs.Children;
                     gs.Status = Enumeration.GuestRequestStatus.Open;
                 }
 
@@ -49,7 +49,7 @@ namespace BL
                 throw new InvalidOperationException("DAL PROBLEM : " + ex.Message);
             }
 
-            }
+        }
 
         public void AddOrder(Order or)
         {
@@ -59,7 +59,7 @@ namespace BL
                 HostingUnit myhosting = GetHostingUnit(or.HostingUnitKey);
                 if (guestreq != null && myhosting != null)
                 {
-                    bool flag = CheckMatrice(guestreq.EntryDate, guestreq.ReleaseDate, myhosting);
+                    bool flag = CheckMatrice(guestreq, myhosting);
                     if (flag == true)
                     {
                         throw new ArgumentException("The dates are not available for this hosting unit");
@@ -86,7 +86,7 @@ namespace BL
             {
                 throw new InvalidOperationException("DAL PROBLEM : " + ex.Message);
             }
-            
+
         }
 
         public void AddHost(Host h)
@@ -109,19 +109,19 @@ namespace BL
 
         public void AddHostingUnit(HostingUnit hu)
         {
-            try { 
-            // verifier que son owner il existe dans le systeme
-            if (GetHost(hu.Owner.HostKey) == null)
-            {
-                throw new KeyNotFoundException("The Owner of the Hosting Unit is not in the system. Please add him before.");
-            }
-            if (hu.HostingUnitName == "" || hu.Room == 0)
-            {
-                throw new ArgumentException("You need to fill all this information, please.");
-            }
-            hu.Diary = new bool[12,31];
-            initMatrice(hu.Diary);
-            dal.AddHostingUnit(hu);
+            try {
+                // verifier que son owner il existe dans le systeme
+                if (GetHost(hu.Owner.HostKey) == null)
+                {
+                    throw new KeyNotFoundException("The Owner of the Hosting Unit is not in the system. Please add him before.");
+                }
+                if (hu.HostingUnitName == "" || hu.Room == 0)
+                {
+                    throw new ArgumentException("You need to fill all this information, please.");
+                }
+                hu.Diary = new bool[12, 31];
+                initMatrice(hu.Diary);
+                dal.AddHostingUnit(hu);
             }
             catch (InvalidOperationException ex)
             {
@@ -133,60 +133,68 @@ namespace BL
         #region UPDATE
         public void UpdateOrder(Order or)
         {
-            try { 
-            if (or.Status == Enumeration.OrderStatus.ClosedForCustomerResponse)
-            {
-                // on met a jour la maarehet comme quoi c reserve , on envoie la reservation 
-                UpdateMatriceHostingunit(or);
-
-                GuestRequest guestreq = GetGuestRequest(or.GuestRequestKey);
-                int NumDays = CommissionCost(guestreq);
-                Console.WriteLine("The cost of the commission is " + NumDays);
-
-                //MaJ du statut de tous les orders avec cette guest request pour les fermer
-                UpdateOrderAndGuestReq(or);
-
-                or.PaymentConfirmation = true;
-            }
-
-            else if (or.Status == Enumeration.OrderStatus.NotAddressed)
-            {
-                // check si le host a une autorisation de prelev pour la commission
-                HostingUnit myhosting = dal.GetHostingUnit(or.HostingUnitKey);
-                Host myHost = GetHost(myhosting.Owner.HostKey);
-                if (myHost.CollectionClearance == true)
+            try {
+                if (or.Status == Enumeration.OrderStatus.ClosedForCustomerResponse)
                 {
-                    or.Status = Enumeration.OrderStatus.SentEmail;
-                }
-                else
-                {
-                    Console.WriteLine("Sorry, the host doen't have ichour gviya for the commission");
-                    or.Status = Enumeration.OrderStatus.NotAddressed;
-                }
-            }
-            else if (or.Status == Enumeration.OrderStatus.SentEmail)
-            {
-                or.OrderDate = DateTime.Now;
-                GuestRequest GR = GetGuestRequest(or.GuestRequestKey);
-                or.PriceOfTheStay = PriceOftheStay(or);
-                bool flag = false;
-                if (GR.NumTotalPersons >= 5 || (int)(((GR.ReleaseDate - GR.EntryDate).TotalDays)-1) > 7)
-                {
-                    flag = true;
-                    or.PriceOfTheStay = Reduction(or);
-                }
-                if (flag == true)
-                {
-                    Console.WriteLine("The cost of the stay is " + or.PriceOfTheStay +
-                        "\n, we are delighted to announce that we have given you a 5% reduction on the price of the stay.");
+                    // on met a jour la maarehet comme quoi c reserve , on envoie la reservation 
+                    UpdateMatriceHostingunit(or);
 
+                    GuestRequest guestreq = GetGuestRequest(or.GuestRequestKey);
+                    int NumDays = CommissionCost(guestreq);
+                    // Console.WriteLine("The cost of the commission is " + NumDays);
+
+                    //MaJ du statut de tous les orders avec cette guest request pour les fermer
+                    UpdateOrderAndGuestReq(or);
+
+                    or.PaymentConfirmation = true;
                 }
-                else 
-                    Console.WriteLine("The cost of the stay is " + or.PriceOfTheStay);
-                // faire une fonction pour envoyer un mail 
-                Console.WriteLine("MAIL SENT");
-            }
-            dal.UpdateOrder(or);
+
+                else if (or.Status == Enumeration.OrderStatus.NotAddressed)
+                {
+                    // check si le host a une autorisation de prelev pour la commission
+                    HostingUnit myhosting = dal.GetHostingUnit(or.HostingUnitKey);
+                    Host myHost = GetHost(myhosting.Owner.HostKey);
+                    if (myHost.CollectionClearance == true)
+                    {
+                        or.Status = Enumeration.OrderStatus.SentEmail;
+                    }
+                    else
+                    {
+                        or.Status = Enumeration.OrderStatus.NotAddressed;
+                        throw new Exception("Sorry, the host doesn't have ichour gviya for the commission");
+
+                    }
+                }
+                else if (or.Status == Enumeration.OrderStatus.SentEmail)
+                {
+                    or.OrderDate = DateTime.Now;
+                    HostingUnit myhosting = GetHostingUnit(or.HostingUnitKey);
+                    GuestRequest GR = GetGuestRequest(or.GuestRequestKey);
+                    or.PriceOfTheStay = PriceOftheStay(or);
+                    bool flag = CheckMatrice(GR, myhosting);
+                    if (flag == true)
+                    {
+                        throw new ArgumentException("The dates are not available anymore for this hosting unit");
+
+                    }
+                    bool flag2 = false;
+                    if (GR.NumTotalPersons >= 5 || (int)(((GR.ReleaseDate - GR.EntryDate).TotalDays) - 1) > 7)
+                    {
+                        flag2 = true;
+                        or.PriceOfTheStay = Reduction(or);
+                    }
+                    //if (flag == true)
+                    //{
+                    //    Console.WriteLine("The cost of the stay is " + or.PriceOfTheStay +
+                    //        "\n, we are delighted to announce that we have given you a 5% reduction on the price of the stay.");
+
+                    //}
+                    //else 
+                    //    Console.WriteLine("The cost of the stay is " + or.PriceOfTheStay);
+                    // faire une fonction pour envoyer un mail 
+                    //Console.WriteLine("MAIL SENT");
+                }
+                dal.UpdateOrder(or);
             }
             catch (KeyNotFoundException ex)
             {
@@ -196,13 +204,13 @@ namespace BL
 
         public void UpdateGuestRequest(GuestRequest gs)
         {
-            try { 
-            if (gs.EntryDate == DateTime.Now)
-            {
-                gs.Status = Enumeration.GuestRequestStatus.ClosedBecauseItExpired;
-                Console.WriteLine("Your request is closed because you didn't close any deal.");
-            }
-            dal.UpdateGuestRequest(gs);
+            try {
+                if (gs.EntryDate == DateTime.Now)
+                {
+                    gs.Status = Enumeration.GuestRequestStatus.ClosedBecauseItExpired;
+                    Console.WriteLine("Your request is closed because you didn't close any deal.");
+                }
+                dal.UpdateGuestRequest(gs);
             }
             catch (KeyNotFoundException ex)
             {
@@ -212,10 +220,10 @@ namespace BL
 
         public void UpdateHostingUnit(HostingUnit hu)
         {
-            try{
-                if (DateTime.Now.Day == 1)
-                MatriceUptoZero(hu);
-            dal.UpdateHostingUnit(hu);
+            try {
+                //if (DateTime.Now.Day == 1)
+                //    MatriceUptoZero(hu);
+                dal.UpdateHostingUnit(hu);
             }
             catch (KeyNotFoundException ex)
             {
@@ -245,20 +253,20 @@ namespace BL
         #region ERASE
         public void EraseHostingUnit(long hostingunitkey)
         {
-            try { 
-            HostingUnit myhosting = GetHostingUnit(hostingunitkey);
-            bool flag = false;
-            foreach (var item in dal.GetAllOrder())
-            {
-                if (item.Status == Enumeration.OrderStatus.SentEmail)
+            try {
+                HostingUnit myhosting = GetHostingUnit(hostingunitkey);
+                bool flag = false;
+                foreach (var item in dal.GetAllOrder())
                 {
-                    flag = true;
+                    if (item.Status == Enumeration.OrderStatus.SentEmail)
+                    {
+                        flag = true;
+                    }
                 }
-            }
-            if (flag == true)
-                throw new Exception("There is still Guest Request open with this Hosting Unit. You can't delete it.");
-            else
-                dal.EraseHostingUnit(hostingunitkey);
+                if (flag == true)
+                    throw new Exception("There is still Guest Request open with this Hosting Unit. You can't delete it.");
+                else
+                    dal.EraseHostingUnit(hostingunitkey);
             }
             catch (InvalidOperationException ex)
             {
@@ -268,25 +276,25 @@ namespace BL
 
         public void EraseHost(int key)
         {
-            try { 
-            Host hostt = GetHost(key);
-            //bool flag = false;
-            List<HostingUnit> listHostingUnit = HostingUnitPerHost(hostt);
+            try {
+                Host hostt = GetHost(key);
+                //bool flag = false;
+                List<HostingUnit> listHostingUnit = HostingUnitPerHost(hostt);
 
-            if (listHostingUnit != null) 
-            {
-                foreach (var item in listHostingUnit)
+                if (listHostingUnit != null)
                 {
-                    EraseHostingUnit(item.HostingUnitKey);
-                    
+                    foreach (var item in listHostingUnit)
+                    {
+                        EraseHostingUnit(item.HostingUnitKey);
+
+                    }
                 }
-            }
-            // en gros si ya thr des trucs dedans psk ya eu un pb en enlevant une des HU
-            if (listHostingUnit != null)
-            {
-                throw new ArgumentException("It seems there is still one order open with one or your hosting Unit. We can't delete you from the system.");
-            }
-            dal.EraseHost(key);
+                // en gros si ya thr des trucs dedans psk ya eu un pb en enlevant une des HU
+                if (listHostingUnit != null)
+                {
+                    throw new ArgumentException("It seems there is still one order open with one or your hosting Unit. We can't delete you from the system.");
+                }
+                dal.EraseHost(key);
             }
             catch (InvalidOperationException ex)
             {
@@ -364,7 +372,7 @@ namespace BL
         public int CommissionCost(GuestRequest guestreq)
         {
             string NumDays = (guestreq.ReleaseDate - guestreq.EntryDate).TotalDays.ToString();
-            int x = (int.Parse(NumDays) - 1);
+            int x = int.Parse(NumDays);
             return Configuration.Commission * x;
         }
 
@@ -372,21 +380,61 @@ namespace BL
         public void UpdateOrderAndGuestReq(Order or)
         {
             GuestRequest guestreq = dal.GetGuestRequest(or.GuestRequestKey);
+            HostingUnit hu = dal.GetHostingUnit(or.HostingUnitKey);
             if (or.Status == Enumeration.OrderStatus.ClosedForCustomerResponse)
             {
-                IEnumerable<Order> OrderList = dal.GetAllOrder();
+                List<Order> OrderList = dal.GetAllOrder().ToList();
                 guestreq.Status = Enumeration.GuestRequestStatus.ClosedThroughTheSite;
                 dal.UpdateGuestRequest(guestreq);
-                foreach (Order item in OrderList)
+                for (int i = 0; i < OrderList.Count(); i++)
                 {
-                    if (item.GuestRequestKey == guestreq.GuestRequestKey && (item.Status == Enumeration.OrderStatus.NotAddressed || item.Status == Enumeration.OrderStatus.SentEmail))
+                    if (OrderList[i].HostingUnitKey == or.HostingUnitKey && (OrderList[i].Status == Enumeration.OrderStatus.NotAddressed || OrderList[i].Status == Enumeration.OrderStatus.SentEmail))
                     {
-                        item.Status = Enumeration.OrderStatus.ClosedForCustomerUnresponsiveness;
-                        dal.UpdateOrder(item);
+                        OrderList[i].Status = Enumeration.OrderStatus.ClosedForCustomerUnresponsiveness;
+                        UpdateOrder(OrderList[i]);
+
                     }
                 }
+
+                //foreach (Order item in OrderList)
+                //    {
+                //        if (item.HostingUnitKey == or.HostingUnitKey && (item.Status == Enumeration.OrderStatus.NotAddressed || item.Status == Enumeration.OrderStatus.SentEmail))
+
+                //        {
+
+                //            item.Status = Enumeration.OrderStatus.ClosedForCustomerUnresponsiveness;
+                //            UpdateOrder(item);
+                //        }
+                //    }  
             }
         }
+
+        #region MORE LIST
+        [Obsolete]
+        public List<Order> OrderSelonTime(int num)
+        {
+            List<Order> OrderTime = new List<Order>();
+            var list = from item in dal.GetAllOrder()
+                       let temp = (int)(item.OrderDate - item.CreateDate).TotalDays
+                       where temp >= num
+                       select item;
+            OrderTime = list.ToList();
+            return OrderTime;
+        }
+
+        [Obsolete]
+        // Check all the hosting unit free for this dates
+        //public List<HostingUnit> HostingUnitFree(DateTime EntryD, int num)
+        //{
+        //    DateTime ReleaseD = EntryD.AddDays(num);
+        //    List<HostingUnit> HUselonDates = new List<HostingUnit>();
+        //    var list = from item in dal.GetAllHostingUnitCollection()
+        //               let temp = CheckMatrice(EntryD, ReleaseD, item)
+        //               where temp == false
+        //               select item;
+        //    HUselonDates = list.ToList();
+        //    return HUselonDates;
+        //}
 
         public List<HostingUnit> HostingUnitPerHost(Host h)
         {
@@ -418,20 +466,23 @@ namespace BL
             }
             return OrderSelonHU;
         }
+        #endregion
 
-        public bool CheckMatrice(DateTime EntryD, DateTime ReleaseD, HostingUnit myhosting)
+        // check is the matrice is free between dates
+        public bool CheckMatrice(GuestRequest mygr, HostingUnit myhosting)
         {
-            bool flag = false;
-            DateTime i = EntryD;
+            
+            DateTime i = mygr.EntryDate;
             // verif le truc avec le -1
-            if ((myhosting.Diary[EntryD.Month - 1, EntryD.Day - 1]) == false)
+            if ((myhosting.Diary[mygr.EntryDate.Month - 1, mygr.EntryDate.Day - 1]) == false)
             {
-                while (i != ReleaseD)
+                while (i != mygr.ReleaseDate)
                 {
 
                     if (myhosting.Diary[i.Month - 1, i.Day - 1] == true)
                     {
-                        return (flag = true);
+                        return true;
+                        
                         // cest occupe
                     }
                     i = i.AddDays(1);
@@ -439,22 +490,13 @@ namespace BL
                 }
 
             }
-            return flag;
+            else
+            {
+                return true;
+                
+            }
+            return false;
         }
-
-        // Check all the hosting unit free for this dates
-        public List<HostingUnit> HostingUnitFree(DateTime EntryD, int num)
-        {
-            DateTime ReleaseD = EntryD.AddDays(num);
-            List<HostingUnit> HUselonDates = new List<HostingUnit>();
-            var list = from item in dal.GetAllHostingUnitCollection()
-                       let temp = CheckMatrice(EntryD, ReleaseD, item)
-                       where temp == false
-                       select item;
-            HUselonDates = list.ToList();
-            return HUselonDates;
-        }
-
 
         public int DifferenceDays(DateTime[] list)
         {
@@ -478,17 +520,7 @@ namespace BL
             return -1;
         }
 
-        public List<Order> OrderSelonTime(int num)
-        {
-            List<Order> OrderTime = new List<Order>();
-            var list = from item in dal.GetAllOrder()
-                       let temp = (int)(item.OrderDate - item.CreateDate).TotalDays
-                       where temp >= num
-                       select item;
-            OrderTime = list.ToList();
-            return OrderTime;
-        }
-
+        [Obsolete]
         // fonction qui recoit un client et compte le nombre de propositions qu'on lui a envoyées
         public int NumOfPropositionGR(GuestRequest guestreq)
         {
@@ -503,6 +535,7 @@ namespace BL
             return count;
         }
 
+        [Obsolete]
         // fonction qui recoit un hostingunit et qui recoit le nombre de prop sur ce hostingunit
         public int NumofPropositionHU(HostingUnit hu)
         {
@@ -517,40 +550,55 @@ namespace BL
             return count;
         }
 
-        public void NumTotalPersonGR(GuestRequest gs)
+        
+        public int NumTotalPersonGR(int a, int b)
         {
-            gs.NumTotalPersons = gs.Adults;
-            gs.NumTotalPersons += gs.Children;
-            dal.UpdateGuestRequest(gs);
+            int temp = 0;
+            temp += a;
+            temp += b;
+            //gs.NumTotalPersons = gs.Adults;
+            //gs.NumTotalPersons += gs.Children;
+            return temp;
 
         }
 
         #region GROUPING
-        public IGrouping<Enumeration.Area, GuestRequest> GetGuestReqGroupByArea(bool sorted = false)
+        public IEnumerable<IGrouping<Enumeration.Area, GuestRequest>> GetGuestReqGroupByArea(IEnumerable <GuestRequest> guestReq)
         {
-            return (IGrouping<Enumeration.Area, GuestRequest>)from gs in dal.GetAllGuestRequest()
-                                                              group gs by gs.Area;
+           var guestReq_group = from gs in guestReq
+                                     group gs by gs.Area into g1
+                                    select g1;
+            return guestReq_group;
+            
         }
 
-        public IGrouping<int, GuestRequest> GetGuestRequestGroupByPersons(bool sorted = false)
+        public IEnumerable<IGrouping<int, GuestRequest>> GetGuestRequestGroupByPersons(IEnumerable<GuestRequest> guestReq)
         {
-            return (IGrouping<int, GuestRequest>)from gs in dal.GetAllGuestRequest()
-                                                 group gs by gs.NumTotalPersons;
+            var guestReq_group = from gs in guestReq
+                                 group gs by gs.NumTotalPersons into g1
+                                 select g1;
+            return guestReq_group;
+
         }
 
-        public IGrouping<int, Host> GetHostGroupByNumofHU(bool sorted = false)
+        public IEnumerable<IGrouping<int, Host>> GetHostGroupByNumofHU(IEnumerable<Host> hosts)
         {
-            return (IGrouping<int, Host>)from host in dal.GetAllHost()
-                                         group host by HostingUnitPerHost(host).Count();
+            var host_group = from host in hosts
+                                 group host by HostingUnitPerHost(host).Count() into g1
+                                 select g1;
+            return host_group;
+            
         }
 
-        public IGrouping<Enumeration.Area, HostingUnit> GetHUGroupByArea(bool sorted = false)
+        public IEnumerable<IGrouping<Enumeration.Area, HostingUnit>> GetHUGroupByArea(IEnumerable <HostingUnit> hostingunits)
         {
-            return (IGrouping<Enumeration.Area, HostingUnit>)from hu in dal.GetAllHostingUnitCollection()
-                                                             group hu by hu.Areaa;
+            var hostingunit_group = from hostingu in hostingunits
+                                    group hostingu by hostingu.Areaa into g1
+                             select g1;
+            return hostingunit_group;
+            
         }
         #endregion
-
 
         public delegate bool condition(GuestRequest guestreq);
         public List<GuestRequest> AllGuestRequestThat(condition Mycondition)
@@ -571,7 +619,7 @@ namespace BL
         {
             HostingUnit HU = GetHostingUnit(or.HostingUnitKey);
             GuestRequest GR = GetGuestRequest(or.GuestRequestKey);
-            double numDays = (GR.ReleaseDate - GR.EntryDate).TotalDays - 1;
+            double numDays = (GR.ReleaseDate - GR.EntryDate).TotalDays;
             double price = numDays * HU.PricePerNight;
             return price;
         }
@@ -583,7 +631,7 @@ namespace BL
             int month = (DateTime.Now.Month - 1);
             for (int i = 0; i < 31; i++)
             {
-                    HU.Diary[month-1, i] = false;
+                    HU.Diary[month -1, i] = false;
             }
             dal.UpdateHostingUnit(HU);
         }
@@ -592,7 +640,9 @@ namespace BL
         public double  Reduction(Order or)
         {            
             double price = or.PriceOfTheStay;
-            double reduc = 5 / 100 * or.PriceOfTheStay;
+            double reduc = or.PriceOfTheStay;
+            reduc = reduc * 5;
+            reduc = reduc / 100;
             price -= reduc;
             return price;
         }
@@ -608,20 +658,22 @@ namespace BL
             }
         }
 
-        public void testYourChance()
+        public bool testYourChance(int mynum)
         {
             Random r = new Random();
             int num = r.Next(1, 30);
-            Console.WriteLine("Better to miss a chance than not to have tried it: enter a number between 1 and 30 included");
-            string s = Console.ReadLine();
-            int x = int.Parse(s);
-            if (x == num)
+            //Console.WriteLine("Better to miss a chance than not to have tried it: enter a number between 1 and 30 included");
+            //string s = Console.ReadLine();
+            //int x = int.Parse(s);
+            if (mynum == num)
             {
-                Console.WriteLine("Omg, you just win your stay for free. Congrats!!");
+                return true;
+                //Console.WriteLine("Omg, you just win your stay for free. Congrats!!");
             }
             else
             {
-                Console.WriteLine(String.Format("Oh you lose! Test your chance in your next trip. The right number was {0}.", num));
+                return false;
+               // Console.WriteLine(String.Format("Oh you lose! Test your chance in your next trip. The right number was {0}.", num));
             }
 
         }
@@ -633,6 +685,37 @@ namespace BL
                 return true;
             }
             return false;
+        }
+
+        public bool comparaison(GuestRequest gs, HostingUnit hu)
+        {
+
+            GuestRequest myrequest = GetGuestRequest(gs.GuestRequestKey);
+            HostingUnit myhosting = GetHostingUnit(hu.HostingUnitKey);
+            if ((myrequest.Type == myhosting.Typee) && (myrequest.Area == myhosting.Areaa))
+            {
+                if (((myrequest.Pool == Enumeration.Response.Necessary || myrequest.Pool == Enumeration.Response.Possible) && myhosting.Pool == true) || (myrequest.Pool == Enumeration.Response.NotInteressed && myhosting.Pool == false))
+                {
+                    if (((myrequest.KidClub == Enumeration.Response.Necessary || myrequest.KidClub == Enumeration.Response.Possible) && myhosting.KidsClub == true) || (myrequest.KidClub == Enumeration.Response.NotInteressed && myhosting.KidsClub == false))
+                    {
+                        if (((myrequest.Parking == Enumeration.Response.Necessary || myrequest.Parking == Enumeration.Response.Possible) && myhosting.Parking == true) || (myrequest.Parking == Enumeration.Response.NotInteressed && myhosting.Parking == false))
+                        {
+                            if (((myrequest.PetsAccepted == Enumeration.Response.Necessary || myrequest.PetsAccepted == Enumeration.Response.Possible) && myhosting.PetsAccepted == true) || (myrequest.PetsAccepted == Enumeration.Response.NotInteressed && myhosting.PetsAccepted == false))
+                            {
+                                if (((myrequest.FoodIncluded == Enumeration.Response.Necessary || myrequest.FoodIncluded == Enumeration.Response.Possible) && myhosting.FoodIncluded == true) || (myrequest.FoodIncluded == Enumeration.Response.NotInteressed && myhosting.FoodIncluded == false))
+                                {
+                                    if (((myrequest.WifiIncluded == Enumeration.Response.Necessary || myrequest.WifiIncluded == Enumeration.Response.Possible) && myhosting.WifiIncluded == true) || (myrequest.WifiIncluded == Enumeration.Response.NotInteressed && myhosting.WifiIncluded == false))
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+                return false;
         }
 
     }

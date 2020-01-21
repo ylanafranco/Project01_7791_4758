@@ -21,7 +21,7 @@ namespace BE
         private string familyName { get; set; }
         public string FamilyName
         {
-            get { return familyName.ToUpper(); }
+            get { return familyName; }
             set
             {
                 familyName = value;
@@ -29,7 +29,7 @@ namespace BE
         }
 
         private string privateName;
-        public string PrivateName { get { return privateName.ToUpper(); }
+        public string PrivateName { get { return privateName; }
             set { privateName = value; } }
 
         private int id;
@@ -75,12 +75,7 @@ namespace BE
         private DateTime entryDate;
         public DateTime EntryDate { 
                 get { return entryDate; }
-                set {
-                if (value < DateTime.Now)
-                {
-                    throw new ArgumentException(string.Format("This date {0} has already passed.", value));
-                }
-                entryDate = value; }
+                set {entryDate = value; }
             }
 
         private DateTime releaseDate;
@@ -133,37 +128,28 @@ namespace BE
         private Response wifiIncluded;
         public Response WifiIncluded { get { return wifiIncluded; } set { wifiIncluded = value; } }
 
-        private Response smokingRoom;
-        public Response SmokingRoom { get { return smokingRoom; } set { smokingRoom = value; } }
-
         private Response handicapAccess;
         public Response HandicapAccess { get { return handicapAccess; } set { handicapAccess = value; } }
 
-        private Response restaurant;
-        public Response Restaurant { get { return restaurant; } set { restaurant = value; } }
-
-        //public Response Jacuzzi { get; set; }
-        //public Response Garden { get; set; }
-
-        private Response childrenAttractions;
-        public Response ChildrenAttractions { get { return childrenAttractions; } set { childrenAttractions = value; } }
-
-        private bool workTrip;
-        public bool WorkTrip { get { return workTrip; } set { workTrip = value; } }
-
+        private Response foodIncluded;
+        public Response FoodIncluded { get { return foodIncluded; } set { foodIncluded = value; } }
+        
         public override string ToString()
         {
             string s = ("Guest Request Details : " +
                 "\nGuest Request key : " + GuestRequestkey
                 + "\nName :" + familyName + " " + privateName
                 + "\nMail : " + mailAddress
-                + "\nPhone Number : " +"0"+ phoneNumber 
+                + "\nPhone Number : " + "0" + phoneNumber
                 + "\nStatus : " + Status
                 + "\nEntry Date : " + entryDate
                 + "\nRelease Date : " + releaseDate
                 + "\nType : " + type
                 + "\nArea : " + area
-                + "\nNum of people :" + (Children + Adults));
+                + "\nNum of people :" + numTotalPersons);
+               // + "\n Pool :" + Pool.ToString()
+                //+ "\n Food :" + FoodIncluded.ToString()
+                //+"\n Wifi :" + WifiIncluded.ToString());
             return s;
         }
 

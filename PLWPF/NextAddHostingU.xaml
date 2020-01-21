@@ -1,0 +1,44 @@
+﻿<Window x:Class="PLWPF.NextAddHostingU"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        mc:Ignorable="d"
+        Title="NextAddHostingU" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="image/marble.jpeg"></ImageBrush>
+    </Window.Background>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Pool :" HorizontalAlignment="Left" Margin="32,264,0,0" VerticalAlignment="Top" Width="63" FontSize="18" FontFamily="Yu Gothic UI Semibold" RenderTransformOrigin="-2.381,0.902"/>
+        <Label Content="Spa :" Grid.Column="1" HorizontalAlignment="Left" Margin="31.333,162,0,0" VerticalAlignment="Top" Width="63" FontFamily="Yu Gothic UI Semibold" FontSize="18"/>
+        <Label Content="Sport Room :" Grid.Column="1" HorizontalAlignment="Left" Margin="31.333,230,0,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="18"/>
+        <Label Content="Parking :" HorizontalAlignment="Left" Margin="32,330,0,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="18"/>
+        <Label Content="Kids Club :" Grid.Column="1" HorizontalAlignment="Left" Margin="31.333,98,0,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="18" RenderTransformOrigin="0.486,-0.51"/>
+        <Label Content="Pets Accepted :" HorizontalAlignment="Left" Margin="32,37,0,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="18"/>
+        <Label Content="Wifi :" HorizontalAlignment="Left" Margin="32,218,0,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="18" RenderTransformOrigin="0.782,0.41"/>
+        <Label Content="Handicaped Access :" HorizontalAlignment="Left" Margin="32,98,0,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="18" RenderTransformOrigin="0.932,0.302"/>
+        <Label Content="Possibility for food included :" HorizontalAlignment="Left" Margin="27.333,28,0,0" VerticalAlignment="Top" Width="255" FontFamily="Segoe UI Semibold" FontSize="18" Grid.Column="1"/>
+        <Label Content="Air Conditionner :" HorizontalAlignment="Left" Margin="32,153,0,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold" FontSize="18"/>
+        <CheckBox Name="parking" IsChecked="{Binding Path= Parking, Mode=TwoWay}" Content="" HorizontalAlignment="Left" Margin="332,336,0,0" VerticalAlignment="Top" Height="28" Width="31" RenderTransformOrigin="2.516,0.238" />
+        <CheckBox Name="pool" IsChecked="{Binding Path= Pool, Mode=TwoWay}" Content=""  HorizontalAlignment="Left" Margin="331,282,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.581,-0.187"/>
+        <CheckBox Name="spa" IsChecked="{Binding Path= Spa, Mode=TwoWay}" Content=""  Grid.Column="1" HorizontalAlignment="Left" Margin="346.333,162,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.919,0.563"/>
+        <CheckBox Name="sportR" IsChecked="{Binding Path= SportRoom, Mode=TwoWay}" Content="" Grid.Column="1"  HorizontalAlignment="Left" Margin="346.333,236,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.016,0.563"/>
+        <CheckBox Name="Food" IsChecked="{Binding Path= FoodIncluded, Mode=TwoWay}" Content="" HorizontalAlignment="Left" Margin="346.333,37,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <CheckBox Name="aircond" IsChecked="{Binding Path= AirConditionner, Mode=TwoWay}" Content=""  HorizontalAlignment="Left" Margin="331,162,0,0" VerticalAlignment="Top"/>
+        <CheckBox Name="pets"  IsChecked="{Binding Path= PetsAccepted, Mode=TwoWay}" Content="" HorizontalAlignment="Left" Margin="332,46,0,0" VerticalAlignment="Top"/>
+        <CheckBox Name="handic" IsChecked="{Binding Path= HandicapAccess, Mode=TwoWay}" Content="" HorizontalAlignment="Left" Margin="331,98,0,0" VerticalAlignment="Top" Width="22"/>
+        <CheckBox Name="wifi" IsChecked="{Binding Path= WifiIncluded , Mode=TwoWay}" Content="" HorizontalAlignment="Left" Margin="331,230,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.274,0.573"/>
+        <CheckBox Name="kidclub" IsChecked="{Binding Path= KidsClub, Mode=TwoWay}" Content="" HorizontalAlignment="Left" Margin="346.333,98,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.129,0.625" Grid.Column="1"/>
+
+        <Button Name="ADD" Grid.Column="1" Content="Add Hosting Unit" Click="ADD_Click" HorizontalAlignment="Left" Margin="157.333,355,0,0" VerticalAlignment="Top" Width="210" Height="43" FontFamily="Yu Gothic UI Semibold" FontSize="20"/>
+
+
+    </Grid>
+</Window>
