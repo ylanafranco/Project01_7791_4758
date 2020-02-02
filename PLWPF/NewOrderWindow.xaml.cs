@@ -77,7 +77,7 @@ namespace PLWPF
              }
             catch (Exception EX)
             {
-                MessageBox.Show(EX.Message);
+                MessageBox.Show(EX.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

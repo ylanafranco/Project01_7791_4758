@@ -19,15 +19,17 @@ namespace PLWPF
     public partial class UpdateHostingUnitWindow : Window
     {
         IBL bl;
-
-        //List<HostingUnit> mylist;
+        Host myh;
 
         HostingUnit myhosting;
         public UpdateHostingUnitWindow(Host myhost)
-        {// List<HostingUnit> mylist = new List<HostingUnit>();
+        {
+
             InitializeComponent();
             bl = FactoryBL.GetBL();
-            IEnumerable<HostingUnit> myliste = bl.HostingUnitPerHost(myhost);
+            myh = new Host();
+            myh = myhost;
+            IEnumerable<HostingUnit> myliste = bl.HostingUnitPerHost(myh);
             comboBox.ItemsSource = myliste;
             comboBox.DisplayMemberPath = "HostingUnitName";
             this.myhosting = new HostingUnit();
@@ -39,6 +41,7 @@ namespace PLWPF
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             HostingUnit myhosting = comboBox.SelectedItem as HostingUnit;
             if (myhosting.PetsAccepted == true)
                 pets.IsChecked = true;
@@ -84,7 +87,7 @@ namespace PLWPF
         {
             try
             {
-
+               myhosting = comboBox.SelectedItem as HostingUnit;
                 if (spabox.IsChecked == true)
                 {
                     myhosting.Spa = true;
@@ -163,6 +166,7 @@ namespace PLWPF
                 {
                     myhosting.Pool = false;
                 }
+
                 bl.UpdateHostingUnit(myhosting);
                 //faut faire bl.update
                 MessageBox.Show("Your hosting unit has been updated\n" + myhosting.ToString(), "Validation", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -180,7 +184,7 @@ namespace PLWPF
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            new MenuOrderWindow(myhosting.Owner).Show();
+            new MenuOrderWindow(myh).ShowDialog();
             Close();
 
         }

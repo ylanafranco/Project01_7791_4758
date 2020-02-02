@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BE;
 using DAL;
@@ -16,9 +17,29 @@ namespace BL
         public BL_imp()
         {
             dal = DAL.FactoryDAL.GetDAL();
-
+            Thread thread = new Thread(() => CheckExpiration());
+            thread.Start();
         }
 
+        void CheckExpiration()
+        {
+            List<GuestRequest> requests = new List<GuestRequest>();
+            foreach (var item in GetAllGuestRequest())
+            {
+                if (item.ReleaseDate <= DateTime.Now)
+                {
+                    item.Status = Enumeration.GuestRequestStatus.ClosedBecauseItExpired;
+
+                    foreach (var truc in OrderSelonGuestRequest(item))
+                    {
+                        truc.Status = Enumeration.OrderStatus.ClosedForCustomerUnresponsiveness;
+                    }
+                }
+
+                
+            }
+        
+        }
 
         #region ADD
         public void AddGuestRequest(GuestRequest gs)
@@ -346,9 +367,13 @@ namespace BL
             return dal.GetAllGuestRequest();
         }
 
-        public IEnumerable<int> GetAllBranch(Func<int, bool> predicate = null)
+        public IEnumerable<BankAccount> GetAllBranch()
         {
-            return dal.GetAllBranch();
+            var mylist = (from item in dal.GetAllBranch()
+                          orderby item.BankNumber
+                          select item);
+            var list = mylist.GroupBy(x => new { x.BranchNumber, x.BankNumber, x.BankName }).Select(x => x.First());
+            return list; 
         }
         #endregion
 
@@ -365,7 +390,7 @@ namespace BL
                 i = i.AddDays(1);
 
             }
-
+            UpdateHostingUnit(myhosting);
         }
 
         // fonction pour calculer la commission du sejour
@@ -422,8 +447,8 @@ namespace BL
             return OrderTime;
         }
 
-        [Obsolete]
-        // Check all the hosting unit free for this dates
+        
+        //Check all the hosting unit free for this dates
         //public List<HostingUnit> HostingUnitFree(DateTime EntryD, int num)
         //{
         //    DateTime ReleaseD = EntryD.AddDays(num);
@@ -466,6 +491,21 @@ namespace BL
             }
             return OrderSelonHU;
         }
+
+        public List<Order> OrderSelonGuestRequest(GuestRequest gs)
+        {
+            List<Order> myorders = GetAllOrder().ToList();
+            List<Order> OrderSelonGR = new List<Order>();
+            foreach (var item in myorders)
+            {
+                if (item.GuestRequestKey == gs.GuestRequestKey)
+                {
+                    OrderSelonGR.Add(item);
+                } 
+            }
+            return OrderSelonGR;
+        }
+
         #endregion
 
         // check is the matrice is free between dates
@@ -692,7 +732,7 @@ namespace BL
 
             GuestRequest myrequest = GetGuestRequest(gs.GuestRequestKey);
             HostingUnit myhosting = GetHostingUnit(hu.HostingUnitKey);
-            if ((myrequest.Type == myhosting.Typee) && (myrequest.Area == myhosting.Areaa))
+            if ((myrequest.Type == myhosting.Typee) && (myrequest.Area == myhosting.Areaa) && (myhosting.Bed >= myrequest.NumTotalPersons))
             {
                 if (((myrequest.Pool == Enumeration.Response.Necessary || myrequest.Pool == Enumeration.Response.Possible) && myhosting.Pool == true) || (myrequest.Pool == Enumeration.Response.NotInteressed && myhosting.Pool == false))
                 {
@@ -718,5 +758,46 @@ namespace BL
                 return false;
         }
 
+ 
+
+        public IEnumerable<int> GetBranchNumbers(string BankName)
+        {
+            var x = from item in GetAllBranch()
+                    where item.BankName == BankName
+                    select item.BranchNumber;
+
+            List<int> mylist = x.ToList().Distinct().ToList();
+            mylist.Sort();
+            return mylist;
+
+
+        }
+
+       
+
+        //Return all the bank detail by it branch number and it name
+        public BankAccount GetMyBranch(int branchnum, string bankname)
+        {
+            foreach (BankAccount item in GetAllBranch())
+            {
+                if ((item.BranchNumber == branchnum) && (item.BankName == bankname))
+                {
+                    return item;
+                }
+            }
+            return new BankAccount();
+        }
+
+        //IEnumerable<int> IBL.GetAllBranch()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public IEnumerable<string> GetBankName()
+        {
+            var list = from item in GetAllBranch()
+                       select item.BankName;
+            return list.Distinct().ToList();
+        }
     }
 }

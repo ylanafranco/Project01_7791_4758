@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL;
+using BE;
 
 namespace PLWPF
 {
@@ -20,12 +21,15 @@ namespace PLWPF
     /// </summary>
     public partial class JeuWindow : Window
     {
-        IBL bl; 
-        public JeuWindow()
+        IBL bl;
+        public static GuestRequest gs1;
+        public JeuWindow(BE.GuestRequest gs2)
         {
             InitializeComponent();
             bl = FactoryBL.GetBL();
-
+            gs1 = new GuestRequest();
+            gs1 = gs2;
+            this.DataContext = gs1;
         }
 
         #region FOCUS
@@ -57,7 +61,7 @@ namespace PLWPF
             bool rep = bl.testYourChance(mynum);
             if (rep == true)
             {
-                MessageBox.Show("Omg, you just win your stay for free. Congrats!!", "Result", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("Omg, you just win your stay for free. Congrats!!", "Result", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
@@ -68,7 +72,7 @@ namespace PLWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            new GRthreeWindow(gs1).ShowDialog();
         }
     }
 }

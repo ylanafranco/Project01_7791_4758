@@ -5,20 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
-        Title="BankAccountWindow" Height="450" Width="800">
+        Title="BankAccountWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.Background>
         <ImageBrush ImageSource="image/marble.jpeg"></ImageBrush>
     </Window.Background>
     <Grid>
-        <TextBox x:Name="bankaccountnumber"  Text="Enter your Bank Account Number..." GotFocus="TextBox_NameGFocus" LostFocus="TextBox_AccountNumberLFocus"   Margin="447,82,136.333,292.667" />
-        <TextBox x:Name="banknumber"  Text="Enter your Bank Number..." GotFocus="TextBox_NameGFocus" LostFocus="TextBox_BankNumberLFocus"  Margin="72,82,503.333,292.667" />
-        <TextBox x:Name="branchnumber"  Text="Enter your Branch Number..." GotFocus="TextBox_NameGFocus" LostFocus="TextBox_BranchnumLFocus"   Margin="72,177,504.333,201.667" />
-        <TextBox x:Name="branchaddress"  Text="Enter your Branch Address..." GotFocus="TextBox_NameGFocus" LostFocus="TextBox_BankAdressLFocus"  Margin="72,267,515.333,112.667" />
-        <TextBox x:Name="bankname"  Text="Enter your Bank Name..." GotFocus="TextBox_NameGFocus" LostFocus="TextBox_BankNameLFocus"   Margin="452,181,138.333,201.667" />
-        <TextBox x:Name="branchcity"  Text="Enter your Bank city..." GotFocus="TextBox_NameGFocus" LostFocus="TextBox_BankCityLFocus"   Margin="452,267,137.333,115.667" />
-        <CheckBox x:Name="collectionclearance" Foreground="Black" Content="Allow Collection Clearence" FontSize="16" IsChecked="False"  Margin="364,377,186.333,9.667" IsEnabled="True" RenderTransformOrigin="0.669,0.015" FontFamily="Yu Gothic UI Semibold" />
+        <TextBox x:Name="bankaccountnumber"  Text="Enter your Bank Account Number..." GotFocus="TextBox_NameGFocus" LostFocus="TextBox_AccountNumberLFocus"   Margin="118,112,463.333,273.667" />
         <Button x:Name="validation" Content="Valid" FontSize="16" Height="34" Width="72" HorizontalAlignment="Right" VerticalAlignment="Top" Click="validation_Click" Margin="0,369,55.333,0" FontFamily="Yu Gothic UI Semibold"   />
         <Label x:Name="label" Content="Please enter all the infomations :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="72,29,0,0" Width="326" Height="34" FontSize="18" Background="#FFB0A7BD" FontWeight="Bold" FontFamily="Microsoft JhengHei"/>
+        <ComboBox Name="BankName" MouseLeave="BankName_MouseLeave" HorizontalAlignment="Left" Margin="118,204,0,0" VerticalAlignment="Top" Width="212" Height="43" SelectionChanged="BankName_SelectionChanged"/>
+        <ComboBox Name="BranchNum" Visibility="Hidden" HorizontalAlignment="Left" Margin="441,204,0,0" VerticalAlignment="Top" Width="230" Height="43"/>
+        <CheckBox x:Name="collectionclearance" Foreground="Black" Content="Allow Collection Clearence" FontSize="16" IsChecked="False"  Margin="364,377,186.333,9.667" IsEnabled="True" RenderTransformOrigin="0.669,0.015" FontFamily="Yu Gothic UI Semibold" />
+        <Label Content="Choose a bank :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="118,173,0,0" Width="165" FontFamily="Yu Gothic UI Semibold"/>
+        <Label Name="lblsnif" Visibility="Hidden" Content="Choose a snif : " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="441,173,0,0" Width="166" FontFamily="Yu Gothic UI Semibold"/>
+
 
     </Grid>
 </Window>

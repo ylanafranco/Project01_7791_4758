@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
-        Title="HostingUnitListUser" Height="450" Width="800">
+        Title="HostingUnitListUser" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.Resources>
         <CollectionViewSource x:Key="HostingUnitSource" />
     </Window.Resources>
@@ -15,7 +15,8 @@
     <Grid>
         <DataGrid x:Name="findGrid" AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Stretch" Height="256" VerticalAlignment="Stretch" Margin="10,124,28.333,40.667" >
             <DataGrid.Columns>
-               <DataGridTextColumn Header="Guest Request Key" Binding="{Binding HostingUnitKey}" FontFamily="Arial" Width="auto" />
+               <DataGridTextColumn Header="Hosting Unit Key" Binding="{Binding HostingUnitKey}" FontFamily="Arial" Width="auto" />
+                <DataGridTextColumn Header="Hosting Unit Name" Binding="{Binding HostingUnitName}" FontFamily="Arial" Width="auto" />
                 <DataGridTextColumn Header="Owner Family Name" Binding="{Binding Owner.FamilyName}" FontFamily="Arial" Width="auto" />
                 <DataGridTextColumn Header="Owner Private Name" Binding="{Binding Owner.PrivateName}" FontFamily="Arial" Width="auto" />
                 <DataGridTextColumn Header="Price Per Night (dollars)"  Binding="{Binding PricePerNight}" FontFamily="Arial" Width="auto"/>

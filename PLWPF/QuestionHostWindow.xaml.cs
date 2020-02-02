@@ -26,7 +26,7 @@ namespace PLWPF
 
         private void New_Checked(object sender, RoutedEventArgs e)
         {
-            new NewHost().Show();
+            new NewHost().ShowDialog();
             this.Close();
 
 
@@ -35,14 +35,14 @@ namespace PLWPF
         private void Old_Checked(object sender, RoutedEventArgs e)
         {
 
-            new AddHostingUnitWindow().Show();
+            new AddHostingUnitWindow().ShowDialog();
             this.Close();
 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new MenuHostingUnit().Show();
+            new MenuHostingUnit().ShowDialog();
             Close();
         }
     }

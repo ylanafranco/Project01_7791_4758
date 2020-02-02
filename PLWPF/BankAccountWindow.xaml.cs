@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace PLWPF
         public static Host myhost;
         public static BankAccount bankacc;
         IBL bl;
+        BackgroundWorker bwrk = new BackgroundWorker();
 
         public BankAccountWindow(Host host)
         {
@@ -33,7 +35,7 @@ namespace PLWPF
             myhost = host;
             bankacc = new BankAccount();
             myhost.BankAccount = new BankAccount();
-
+            this.BankName.ItemsSource = bl.GetBankName();
         }
 
         #region FOCUS
@@ -115,19 +117,23 @@ namespace PLWPF
                 int value = 0;
                 bool temp = int.TryParse(this.bankaccountnumber.Text, out value);
                 myhost.BankAccountNumber = value;
-                bankacc.BankName = this.bankname.Text;
-                //myhost.BankAccount.BankName = this.bankname.Text;
-                temp = int.TryParse(this.banknumber.Text, out value);
-                //myhost.BankAccount.BankNumber = value;
-                bankacc.BankNumber = value;
-                bankacc.BranchAddress = this.branchaddress.Text;
-                //myhost.BankAccount.BranchAddress = (this.branchaddress.Text);
-                bankacc.BranchCity = this.branchaddress.Text;
-                //myhost.BankAccount.BranchCity = this.branchcity.Text;
-                temp = int.TryParse(this.branchnumber.Text, out value);
-                bankacc.BranchNumber = value;
-                //myhost.BankAccount.BranchNumber = value;
-                myhost.BankAccount = bankacc;
+                myhost.BankAccount = bl.GetMyBranch(int.Parse(BranchNum.Text), BankName.Text);
+                
+                //value = 0;
+                //temp = int.TryParse(this.branchnumber.Text, out value);
+                //bankacc.BranchNumber = value;
+                //bankacc.BankName = this.bankname.Text;
+                ////myhost.BankAccount.BankName = this.bankname.Text;
+                //temp = int.TryParse(this.banknumber.Text, out value);
+                ////myhost.BankAccount.BankNumber = value;
+                //bankacc.BankNumber = value;
+                //bankacc.BranchAddress = this.branchaddress.Text;
+                ////myhost.BankAccount.BranchAddress = (this.branchaddress.Text);
+                //bankacc.BranchCity = this.branchcity.Text;
+                ////myhost.BankAccount.BranchCity = this.branchcity.Text;
+                
+                ////myhost.BankAccount.BranchNumber = value;
+                //myhost.BankAccount = bankacc;
                 if (collectionclearance.IsChecked == true && bl.checkCollectionClearance(myhost))
                 {
                     myhost.CollectionClearance = true;
@@ -136,7 +142,7 @@ namespace PLWPF
                     myhost.CollectionClearance = false;
                 bl.AddHost(myhost);
                 MessageBox.Show("Your registration has been saved", "Validation", MessageBoxButton.OK, MessageBoxImage.Information);
-                new AddHostingUnitWindow().Show();
+                new AddHostingUnitWindow().ShowDialog();
                 Close();
             }
 
@@ -148,6 +154,17 @@ namespace PLWPF
             
             }
 
+        }
+
+        private void BankName_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.BranchNum.ItemsSource = bl.GetBranchNumbers(BankName.Text);
+        }
+
+        private void BankName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BranchNum.Visibility = Visibility.Visible;
+            lblsnif.Visibility = Visibility.Visible;
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
-        Title="GRthreeWindow" Height="450" Width="800">
+        Title="GRthreeWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.Background>
         <ImageBrush ImageSource="image/paysage.jpeg"></ImageBrush>
     </Window.Background>
@@ -24,7 +24,7 @@
         <Label x:Name="label4" Content="Enter your private name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="303,66,0,0" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
         <Button x:Name="addarequest" Content="Add a request ☞" FontSize="16" Height="27"  Width="146" HorizontalAlignment="Left" VerticalAlignment="Top" Click="addrequest_Click" Margin="547,374,0,0"  Grid.ColumnSpan="2" />
-        <Button x:Name="cancel" Content="Cancel" FontSize="16" Height="33" Width="58" HorizontalAlignment="Right" VerticalAlignment="Top" Click="cancel_Click" Margin="0,368,21.6,0" Grid.ColumnSpan="2"  />
+       
         <Button x:Name="button1" Content="Test your luck and win a trip!!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="492" Margin="375,20,-73.667,0" Height="128" FontWeight="Bold" FontSize="20" FontStyle="Italic" FontStretch="ExtraExpanded" TextOptions.TextHintingMode="Animated" Foreground="#FFFF0E0E" BorderThickness="0,1,1,1" BorderBrush="Red" OpacityMask="#FFF71414" RenderTransformOrigin="0.5,0.5" Click="Button_Click">
             <Button.RenderTransform>
                 <TransformGroup>

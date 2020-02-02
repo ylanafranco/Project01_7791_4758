@@ -7,6 +7,7 @@ using System.Net.Mail;
 
 namespace BE
 {
+    [Serializable]
     public class Host
     {
         private int hostKey;

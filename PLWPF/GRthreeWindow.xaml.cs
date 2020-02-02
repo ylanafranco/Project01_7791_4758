@@ -133,18 +133,14 @@ namespace PLWPF
 
         #endregion
 
-        private void cancel_Click(object sender, RoutedEventArgs e)
-        {
-            new MainWindow().ShowDialog();
-            Close();
-        }
+        
 
         private void addrequest_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                
-                gs2.GuestRequestKey = Configuration.NumStaticGuestRequest;
+                long value = Configuration.NumStaticGuestRequest;
+                gs2.GuestRequestKey = value;
                 gs2.MailAddress = this.textBox2.Text;
                 gs2.FamilyName = this.textBox.Text;
                 gs2.PrivateName = this.textBox4.Text;
@@ -180,7 +176,7 @@ namespace PLWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new JeuWindow().ShowDialog();
+            new JeuWindow(gs2).ShowDialog();
             
         }
     }

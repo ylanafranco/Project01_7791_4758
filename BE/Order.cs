@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
+    [Serializable]
     public class Order : Enumeration
     {
         //private int HostingUnitkey;
@@ -15,7 +16,7 @@ namespace BE
         public long GuestRequestKey { get; set; }
 
         private int orderKey;
-        public int OrderKey { get { return orderKey; } set { orderKey = Configuration.NumStaticOrder++; } }
+        public int OrderKey { get { return orderKey; } set { orderKey = value; } }
 
         private OrderStatus status;
         public OrderStatus Status { get { return status; } set { status = value; } }

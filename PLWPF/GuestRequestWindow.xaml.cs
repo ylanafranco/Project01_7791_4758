@@ -90,17 +90,23 @@ namespace PLWPF
 
             switch (typecomboBox.SelectedItem.ToString())
             {
-                case "HotelRoom":
-                    gs.Type = Enumeration.Type.Hotel;
+                case "Zimmer":
+                    gs.Type = Enumeration.Type.Zimmer;
                     break;
                 case "Camping":
                     gs.Type = Enumeration.Type.Camping;
                     break;
-                case "Apartment":
+                case "Appartment":
                     gs.Type = Enumeration.Type.Appartment;
                     break;
                 case "House":
                     gs.Type = Enumeration.Type.House;
+                    break;
+                case "Hotel":
+                    gs.Type = Enumeration.Type.Hotel;
+                    break;
+                case "Hostel":
+                    gs.Type = Enumeration.Type.Hostel;
                     break;
                 default:
                     break;
@@ -152,12 +158,10 @@ namespace PLWPF
             Close();
 
         }
+
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().ShowDialog();
-            Close();
+            new MainWindow().Show();
         }
-
-        
     }
 }

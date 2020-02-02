@@ -24,13 +24,19 @@ namespace PLWPF
         IBL bl;
         public GuestRequest myrequest;
         public static Host myhost;
-
+        public static List<GuestRequest> mylist;
 
         public GuestRequestListWindow(Host host)
         {
             InitializeComponent();
             bl = FactoryBL.GetBL();
-            findGrid.ItemsSource = bl.GetAllGuestRequest();
+            //foreach (var item in bl.GetAllGuestRequest())
+            //{
+           
+               // MessageBox.Show());
+            //}
+            mylist = bl.GetAllGuestRequest().ToList();
+            findGrid.ItemsSource = mylist;
             myrequest = new GuestRequest();
             myhost = new Host();
             myhost = host;
@@ -96,6 +102,7 @@ namespace PLWPF
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            
             new MenuOrderWindow(myhost).Show();
             Close();
         }

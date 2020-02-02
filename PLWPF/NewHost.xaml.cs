@@ -34,7 +34,7 @@ namespace PLWPF
 
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().ShowDialog();
+            new MainWindow().Show();
         }
 
         private void configuratebankaccount_Click(object sender, RoutedEventArgs e)

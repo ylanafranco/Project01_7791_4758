@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
-        Title="GuestReqListUser" Height="450" Width="800">
+        Title="GuestReqListUser" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.Resources>
         <CollectionViewSource x:Key="GuestRequestSource" />
     </Window.Resources>
@@ -13,7 +13,7 @@
         <ImageBrush ImageSource="image/marble.jpeg"></ImageBrush>
     </Window.Background>
     <Grid>
-        <DataGrid x:Name="findGrid"  ItemsSource="{Binding TestCollection}" AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Stretch" Height="256" VerticalAlignment="Stretch" Margin="24,90,14.333,74.667" >
+        <DataGrid x:Name="findGrid"  ItemsSource="{Binding GuestRequestCollection}" AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Stretch" Height="256" VerticalAlignment="Stretch" Margin="24,90,14.333,74.667" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Actual Status" Binding="{Binding Status}" FontFamily="Arial" Width="auto"/>
                 <DataGridTextColumn Header="Guest Request Key" Binding="{Binding GuestRequestKey}" FontFamily="Arial" Width="auto" />

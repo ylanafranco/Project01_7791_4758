@@ -4,19 +4,42 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Book Your Trip" Height="450" Width="800" Icon="image/holidays.jpg" >
+        Title="Book Your Trip" Height="450" Width="800" Icon="image/holidays.jpg" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" SizeToContent="WidthAndHeight">
 
     <Window.Background>
         <ImageBrush ImageSource="image/main.jpg"></ImageBrush>
     </Window.Background>
 
     <Grid>
+        <MediaElement Source="C:\Users\Ylana\Downloads\OFFICIAL Somewhere over the Rainbow - Israel IZ Kamakawiwoʻole.mp3" Name="myMediaElement" Width="25" Margin="107,2,662.667,399" RenderTransformOrigin="-2.52,-2.214" ></MediaElement>
+        <Button  VerticalAlignment="Top"  HorizontalAlignment="Stretch" Margin="21,10,736.6,0" Height="36" Width="36" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="OrangeRed" Click="sortir">
+            <materialDesign:PackIcon Kind="Power" RenderTransformOrigin="-1.337,-0.503" Height="26" Width="36">
+            </materialDesign:PackIcon>
+        </Button>
+        <Button  VerticalAlignment="Top"   Margin="350,0,407.6,0" Height="36" Width="36" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="ForestGreen" Click="Button_Click_2" >
+            <materialDesign:PackIcon Kind="Whatsapp" RenderTransformOrigin="-1.337,-0.503">
 
-        <Button Content=" ☀ New Guest Request" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Margin="403,73,0,0" Click="ButtonGuestRequest_Click" Height="338" FontSize="22" />
-        <Button Content="웃 Hosting Unit"  Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Width="398" Height="338" Click="ButtonHostingUnit_Click" FontSize="24" RenderTransformOrigin="0.703,0.76" Margin="0,73,0,0" FontWeight="Bold"/>
-        <Button Content="♜ USER" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" RenderTransformOrigin="3.149,3.484" Margin="669,10,0,0" Height="34" Click="ButtonUser_Click" Grid.Row="0" FontSize="24" Grid.RowSpan="1"/>
-        <Label Name="titre" Content="It's time for a break !" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top" Height="89" Width="462" FontSize="48" FontWeight="Bold" FontFamily="Forte"/>
+            </materialDesign:PackIcon>
+
+        </Button>
+        <Button  VerticalAlignment="Top"   Margin="263,0,494.6,0" Height="36" Width="36" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="BlueViolet" Click="Button_Click" >
+            <materialDesign:PackIcon Kind="Facebook " RenderTransformOrigin="-1.337,-0.503">
+
+            </materialDesign:PackIcon>
+
+        </Button>
+        <Button  VerticalAlignment="Bottom"   Margin="309,0,448.6,384" Height="36" Width="36" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="DeepSkyBlue" Click="Button_Click_1" RenderTransformOrigin="0.579,1.093" >
+            <materialDesign:PackIcon Kind="Twitter" RenderTransformOrigin="-1.337,-0.503">
+
+            </materialDesign:PackIcon>
+        </Button>
+        <TextBox x:Name="textBox" HorizontalAlignment="Stretch" Height="23" TextWrapping="Wrap" Text="Share via :" VerticalAlignment="Top" Width="95" Margin="168,10,530.333,0" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Yu Gothic UI Semibold" FontStyle="Italic"/>
+        <Button BorderBrush="{x:Null}" Content=" ☀ New Guest Request" FontWeight="Bold" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="390"  Click="ButtonGuestRequest_Click" Height="307" FontSize="22" Margin="403,114,0.333,-0.333" />
+        <Button BorderBrush="{x:Null}" Content="웃 Hosting Unit"  Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="307" Click="ButtonHostingUnit_Click" FontSize="24" RenderTransformOrigin="0.703,0.76" Margin="1,115,390.667,0" FontWeight="Bold"/>
+        <Button BorderBrush="{x:Null}" Content="♜ USER" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" RenderTransformOrigin="3.149,3.484" Margin="669,10,0,0" Height="34" Click="ButtonUser_Click" Grid.Row="0" FontSize="24" Grid.RowSpan="1"/>
+        <Label Name="titre" Content="It's time for a break !" HorizontalAlignment="Stretch" Margin="148,33,183.333,298.667" VerticalAlignment="Stretch" Height="89" Width="462" FontSize="48" FontWeight="Bold" FontFamily="Forte"/>
 
     </Grid>
 </Window>

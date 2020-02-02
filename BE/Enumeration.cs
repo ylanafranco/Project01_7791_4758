@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
+    [Serializable]
     public class Enumeration
     {
         public enum Area { North, South, Center, Jerusalem}

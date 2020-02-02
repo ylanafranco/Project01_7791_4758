@@ -34,17 +34,25 @@ namespace PLWPF
 
         private void ButtonLogIn_Click(object sender, RoutedEventArgs e)
         {
-            Host myhost = new Host();
-            myhost = bl.GetHost(int.Parse(passw.Password));
-            if ((myhost.FamilyName == username.Text)  && myhost.HostKey == int.Parse(passw.Password))
+            try
             {
-                new MyAccountWindow(myhost).Show();
-                Close();
+                Host myhost = new Host();
+                myhost = bl.GetHost(int.Parse(passw.Password));
+                if ((myhost.FamilyName == username.Text) && myhost.HostKey == int.Parse(passw.Password))
+                {
+                    new MyAccountWindow(myhost).ShowDialog();
+                    Close();
+                }
             }
-            else
+            catch (Exception)
             {
+
                 MessageBox.Show("Incorrect Username Or Password", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+
             }
+
+
+           
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

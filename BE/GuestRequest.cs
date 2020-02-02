@@ -8,13 +8,14 @@ using System.Net.Mail;
 
 namespace BE
 {
+    [Serializable]
     public class GuestRequest : Enumeration
     {
         private long GuestRequestkey;
         public long GuestRequestKey
         {
             get { return GuestRequestkey; }
-            set { GuestRequestkey = Configuration.NumStaticGuestRequest++; }
+            set { GuestRequestkey = value; }
 
         }
 

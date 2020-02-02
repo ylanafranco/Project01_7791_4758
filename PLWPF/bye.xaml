@@ -1,0 +1,17 @@
+﻿<Window x:Class="PLWPF.bye"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        mc:Ignorable="d"
+        Title="Good Bye" Height="450" Width="800"  xmlns:gif="http://wpfanimatedgif.codeplex.com" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Grid Background="SkyBlue">
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="67" TextWrapping="Wrap" Text=" Hope to see you soon !!!" VerticalAlignment="Top" Width="576" Margin="183,23,0,0" FontFamily="Brush Script MT" FontStyle="Italic" FontWeight="Bold" FontSize="48" Background="{x:Null}" BorderBrush="{x:Null}">
+            <TextBox.Effect>
+                <BlurEffect/>
+            </TextBox.Effect>
+        </TextBox>
+        <Image gif:ImageBehavior.AnimatedSource="image/giphy1.gif" Margin="119,95,133.667,10"></Image>
+    </Grid>
+</Window>

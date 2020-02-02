@@ -28,7 +28,7 @@ namespace PLWPF
         {
             if ((username.Text == "karel") && (passw.Password == "ylana"))
             {
-                new UserWindow().Show();
+                new UserWindow().ShowDialog();
                 Close();
             }
             else
@@ -39,7 +39,7 @@ namespace PLWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().ShowDialog();
+            new MainWindow().Show();
             Close();
         }
     }

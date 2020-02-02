@@ -27,19 +27,40 @@ namespace PLWPF
 
         private void ButtonGuestRequest_Click(object sender, RoutedEventArgs e)
         {
-            new GuestRequestWindow().Show();
+            new GuestRequestWindow().ShowDialog();
             Close();
         }
 
         private void ButtonHostingUnit_Click(object sender, RoutedEventArgs e)
         {
-            new MenuHostingUnit().Show();
+            new MenuHostingUnit().ShowDialog();
             Close();
         }
 
         private void ButtonUser_Click(object sender, RoutedEventArgs e)
         {
-            new LoginWindow().Show();
+            new LoginWindow().ShowDialog();
+            Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.facebook.com");
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.twitter.com");
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://web.whatsapp.com/");
+        }
+
+        private void sortir(object sender, RoutedEventArgs e)
+        {
+            new bye().ShowDialog();
             Close();
         }
     }

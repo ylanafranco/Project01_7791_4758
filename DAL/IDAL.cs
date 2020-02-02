@@ -16,8 +16,8 @@ namespace DAL
         #endregion
 
         #region HostFonction
-        void AddHost(Host h);
-        void UpdateHost(Host h);
+        void AddHost(Host host);
+        void UpdateHost(Host host);
         void EraseHost(int key);
         Host GetHost(int key);
         #endregion
@@ -40,7 +40,7 @@ namespace DAL
         IEnumerable<Host> GetAllHost(Func<Host, bool> predicate = null);
         IEnumerable<Order> GetAllOrder(Func<Order, bool> predicate = null);
         IEnumerable<GuestRequest> GetAllGuestRequest(Func<GuestRequest, bool> predicate = null);
-        IEnumerable<int> GetAllBranch();
+        IEnumerable<BankAccount> GetAllBranch();
         #endregion
     }
 }

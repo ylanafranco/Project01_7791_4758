@@ -62,7 +62,7 @@ namespace PLWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new UserWindow().Show();
+            new UserWindow().ShowDialog();
             Close();
         }
 
@@ -74,13 +74,13 @@ namespace PLWPF
             mylist2.Add("Type");
             if (mycombobox.SelectedIndex == 0)
             {
-                findGrid.ItemsSource = bl.GetAllGuestRequest();
+                findGrid.ItemsSource = listgs;
             }
             else if (mycombobox.SelectedIndex == 1)
             {
 
                 comboboxgroup.ItemsSource = mylist2;
-                findGrid.ItemsSource = bl.GetAllGuestRequest();
+                findGrid.ItemsSource = listgs;
             }
             
         }
@@ -92,21 +92,19 @@ namespace PLWPF
                 ICollectionView x = CollectionViewSource.GetDefaultView(findGrid.ItemsSource);
                 if (x != null && x.CanGroup)
                 {
-                    x.SortDescriptions.Clear();
-                    //x.GroupDescriptions.Clear();
-                    //x.GroupDescriptions.Add(new PropertyGroupDescription("Area"));
-                    x.SortDescriptions.Add(new SortDescription("Area", ListSortDirection.Descending));
-                }
+                    
+                    x.GroupDescriptions.Clear();
+                    x.GroupDescriptions.Add(new PropertyGroupDescription("Area"));
+                    }
             }
             if (comboboxgroup.SelectedIndex == 1 && mycombobox.SelectedIndex == 1) 
             {
                 ICollectionView x = CollectionViewSource.GetDefaultView(findGrid.ItemsSource);
                 if (x != null && x.CanGroup)
                 {
-                    //x.GroupDescriptions.Clear();
-                    //x.GroupDescriptions.Add(new PropertyGroupDescription("NumTotalPersons"));
-                    x.SortDescriptions.Clear();
-                    x.SortDescriptions.Add(new SortDescription("NumTotalPersons", ListSortDirection.Descending));
+                    x.GroupDescriptions.Clear();
+                    x.GroupDescriptions.Add(new PropertyGroupDescription("NumTotalPersons"));
+                      
                 }
             }
             if (comboboxgroup.SelectedIndex == 2 && mycombobox.SelectedIndex == 1) 
@@ -114,11 +112,10 @@ namespace PLWPF
                 ICollectionView x = CollectionViewSource.GetDefaultView(findGrid.ItemsSource);
                 if (x != null && x.CanGroup)
                 {
-                    x.SortDescriptions.Clear();
-                    //x.GroupDescriptions.Clear();
-                    //x.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
-                    x.SortDescriptions.Add(new SortDescription("Type", ListSortDirection.Descending));
-
+                    
+                    x.GroupDescriptions.Clear();
+                    x.GroupDescriptions.Add(new PropertyGroupDescription("Type"));
+                   
                 }
             }
         }

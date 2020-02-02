@@ -63,7 +63,7 @@ namespace PLWPF
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().ShowDialog();
+            new MainWindow().Show();
             Close();
         }
     }

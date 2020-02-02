@@ -86,7 +86,7 @@ namespace PLWPF
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            new MenuOrderWindow(myhu.Owner).Show();
+            new MenuOrderWindow(myhu.Owner).ShowDialog();
         }
     }
 }

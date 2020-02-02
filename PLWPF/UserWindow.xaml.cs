@@ -26,19 +26,19 @@ namespace PLWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new GuestReqListUser().Show();
+            new GuestReqListUser().ShowDialog();
             Close();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            new HostingUnitListUser().Show();
+            new HostingUnitListUser().ShowDialog();
             Close();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            new OrderListUser().Show();
+            new OrderListUser().ShowDialog();
             Close();
         }
 

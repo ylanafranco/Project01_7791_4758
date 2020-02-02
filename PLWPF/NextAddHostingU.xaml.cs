@@ -124,7 +124,7 @@ namespace PLWPF
                 
                 bl.AddHostingUnit(hostingU);
                 MessageBox.Show("Your hosting unit has been saved\n" + hostingU.ToString() , "Validation", MessageBoxButton.OK, MessageBoxImage.Information);
-                new MenuHostingUnit().Show();
+                new MenuHostingUnit().ShowDialog();
 
             }
             catch (Exception ex)

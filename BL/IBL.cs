@@ -1,5 +1,6 @@
 ﻿using BE;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,8 @@ namespace BL
         IEnumerable<Host> GetAllHost(Func<Host, bool> predicate = null);
         IEnumerable<Order> GetAllOrder(Func<Order, bool> predicate = null);
         IEnumerable<GuestRequest> GetAllGuestRequest(Func<GuestRequest, bool> predicate = null);
-        IEnumerable<int> GetAllBranch(Func<int, bool> predicate = null);
+        IEnumerable<BankAccount> GetAllBranch();
+        IEnumerable<string> GetBankName();
         #endregion
 
         #region GROUPING
@@ -66,6 +68,7 @@ namespace BL
         List<Order> OrderSelonHostingUnit(List<HostingUnit> listHU);
         //List<HostingUnit> HostingUnitFree(DateTime EntryD, int num);
         List<Order> OrderSelonTime(int num);
+        List<Order> OrderSelonGuestRequest(GuestRequest gr);
 
         int NumOfPropositionGR(GuestRequest guestreq);
         int NumofPropositionHU(HostingUnit hu);
@@ -74,5 +77,8 @@ namespace BL
         bool testYourChance(int mynum);
         bool checkCollectionClearance(Host H);
         bool comparaison(GuestRequest gs, HostingUnit hu);
+
+        IEnumerable<int> GetBranchNumbers(string BankName);
+        BankAccount GetMyBranch(int branchnum, string bankname);
     }
 }

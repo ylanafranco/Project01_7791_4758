@@ -49,5 +49,11 @@ namespace PLWPF
             new UpdateHostingUnitWindow(myhost).ShowDialog();
             Close();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show ();
+            Close();
+        }
     }
 }

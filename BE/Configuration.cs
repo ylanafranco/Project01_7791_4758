@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
+    [Serializable]
     public static class Configuration
     {
         public static long NumStaticGuestRequest = 10000000;

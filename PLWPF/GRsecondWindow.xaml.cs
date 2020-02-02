@@ -178,11 +178,7 @@ namespace PLWPF
         #endregion
 
         //return to the menu
-        private void cancel_Click(object sender, RoutedEventArgs e)
-        {
-            new MainWindow().ShowDialog();
-            Close();
-        }
+      
 
         //return to the precedent page
         private void Button_Click_1(object sender, RoutedEventArgs e)

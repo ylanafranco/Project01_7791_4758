@@ -57,7 +57,7 @@ namespace PLWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new UserWindow().Show();
+            new UserWindow().ShowDialog();
             Close();
         }
 

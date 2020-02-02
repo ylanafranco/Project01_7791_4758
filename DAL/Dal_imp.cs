@@ -101,12 +101,12 @@ namespace DAL
         #endregion
 
         #region LIST FUNCTION
-        public IEnumerable<int> GetAllBranch()
+        public IEnumerable<BankAccount> GetAllBranch()
         {
             //if (predicate == null)
             //    return DataSource.GetAllBranch.AsEnumerable();
             //return DataSource.GetAllBranch.Where(predicate).copy();
-            return new List<int> { 26, 7, 18, 55, 1 };
+            return new List<BankAccount> ();
         }
 
         public IEnumerable<GuestRequest> GetAllGuestRequest(Func<GuestRequest, bool> predicate = null)

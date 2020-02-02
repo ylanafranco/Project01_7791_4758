@@ -59,7 +59,7 @@ namespace PLWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new UserWindow().Show();
+            new UserWindow().ShowDialog();
             Close();
         }
 
@@ -110,7 +110,7 @@ namespace PLWPF
                 {
                     x.GroupDescriptions.Clear();
                     x.GroupDescriptions.Add(new PropertyGroupDescription("Room"));
-                   // x.GroupDescriptions.OrderByDescending();
+                   
                 }
             }
             if (comboboxgroup.SelectedIndex == 3 && mycombobox.SelectedIndex == 1)
@@ -119,7 +119,7 @@ namespace PLWPF
                 if (x != null && x.CanGroup)
                 {
                     x.GroupDescriptions.Clear();
-                    ////x.GroupDescriptions.Add(new PropertyGroupDescription("PricePerNight"));
+                    x.GroupDescriptions.Add(new PropertyGroupDescription("PricePerNight"));
                 }
             }
         }
