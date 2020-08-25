@@ -87,8 +87,7 @@ namespace PLWPF
             {
                 bl.UpdateOrder(myorder);
                 bl.UpdateOrder(myorder);
-                //bl.UpdateOrderAndGuestReq(myorder);
-                //MessageBox.Show(myrequest.ToString());
+                
                 SendEmail mailSender = new SendEmail();
 
                 string to = myrequest.MailAddress;
